@@ -1,0 +1,15 @@
+version: '3.5'
+services:
+  react-app:
+    build: react_app/.
+    volumes:
+      - ~/git_wa/HIT/Sababa/react_app/:/usr/share
+    ports:
+      - "3000:3000"
+
+  flask-server:
+    build: server/.
+    volumes:
+      - ~/git_wa/HIT/Sababa/server/:/usr/share
+    ports:
+      - "8081:8081"
