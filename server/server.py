@@ -159,7 +159,7 @@ def registration():
             #raise(f'Error handeling user registration:  {e}')
             print(e,file=sys.stderr)
             response.status_code = 500
-    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'    
+    response.headers['Access-Control-Allow-Origin'] = '*'    
     return response
         
 
@@ -173,7 +173,7 @@ def getUsers():
         response.status_code = 200
     except:
         response.status_code = 500
-    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+    response.headers['Access-Control-Allow-Origin'] = '*'
     return response
 
 

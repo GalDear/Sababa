@@ -62,7 +62,7 @@ function RegistrationForm() {
         const data={full_name:fulltName,email:email,password:password,
         phone_number:phoneNumber,country:country.label,user_type:userType.label,description:description,
         foundation:foundation,gender:gender.label,skills:skills}
-        fetch('http://localhost:8081/api/registration', {
+        fetch('http://192.168.10.57:8081/api/registration', {
             // headers:{ "Access-Control-Allow-Origin": "*"},    
             method: 'POST',
             body: JSON.stringify(data),
