@@ -10,18 +10,16 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime,timedelta
 import time
 
+with open("config.json", "r") as f:
+    config = json.load(f)[sys.argv[1]]
+
 app = Flask(__name__, static_url_path='')
-app.secret_key = "CYMOTIVE"
-
+app.secret_key = "SABABA"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db = SQLAlchemy(app)
-# CORS(app, resources={"*": {"origins": "*"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-
+db = SQLAlchemy(app)
 class UserTypes(enum.Enum):
     suplier = 1
     client = 2
@@ -141,7 +139,6 @@ def home():
     return {'status':200}
 
 @app.route('/api/registration', methods=['GET', 'POST'])
-# @cross_origin(origin='*',headers=['Content- Type'])
 def registration():
     response = make_response(jsonify({'status':200}))
     response.status_code = 200
@@ -156,10 +153,9 @@ def registration():
             response = make_response({'id':new_user.id})
             print(new_user,file=sys.stderr)
         except Exception as e:
-            #raise(f'Error handeling user registration:  {e}')
             print(e,file=sys.stderr)
             response.status_code = 500
-    response.headers['Access-Control-Allow-Origin'] = '*'    
+    response.headers['Access-Control-Allow-Origin'] = config['client_access']   
     return response
         
 
@@ -173,12 +169,12 @@ def getUsers():
         response.status_code = 200
     except:
         response.status_code = 500
-    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Origin'] = config['client_access']
     return response
 
 
 def main():
-    app.run(debug=True, host='0.0.0.0', port='8081')
+    app.run(debug=config["debug"], host='0.0.0.0', port='8081')
 
 
 if __name__ == '__main__':

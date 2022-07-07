@@ -1,7 +1,13 @@
 {
-  "name": "loginforms",
+  "name": "react_sababa",
   "version": "0.1.0",
   "private": true,
+  "test": {
+    "server_ip": "localhost"
+  },
+  "prod": {
+    "server_ip": "192.168.10.57"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",

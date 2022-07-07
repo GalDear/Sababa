@@ -1,4 +1,5 @@
 import React, {useState,setState,useMemo} from 'react';
+import npm_package from '../../package.json'
 import '../App.css'
 import Select from 'react-select'
 import countryList from 'react-select-country-list'
@@ -62,7 +63,7 @@ function RegistrationForm() {
         const data={full_name:fulltName,email:email,password:password,
         phone_number:phoneNumber,country:country.label,user_type:userType.label,description:description,
         foundation:foundation,gender:gender.label,skills:skills}
-        fetch('http://192.168.10.57:8081/api/registration', {
+        fetch(`http://${npm_package.server_ip}:8081/api/registration`, {
             // headers:{ "Access-Control-Allow-Origin": "*"},    
             method: 'POST',
             body: JSON.stringify(data),
@@ -84,7 +85,6 @@ function RegistrationForm() {
     const countryOptions = useMemo(() => countryList().getData(), [])
     const userTypeOptions = [{ value: 'client', label: 'client' },{ value: 'suplier', label: 'suplier' }]
     const genderOptions = [{value: 'male', label: 'male'},{value: 'female', label: 'female'}]
-
     return(
         <div className="form">
             <div className="form-body">

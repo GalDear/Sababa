@@ -1,8 +1,11 @@
 FROM node:14
 
+RUN npm install -g create-react-app
+
 WORKDIR /usr/share/
 COPY . .
 
+RUN npm install
 VOLUME /usr/share/
 
 CMD [ "npm", "start"]

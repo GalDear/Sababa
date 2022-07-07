@@ -3,13 +3,17 @@ services:
   react-app:
     build: react_app/.
     volumes:
-      - ~/git_wa/HIT/Sababa/react_app/:/usr/share
+      - ./react_app/:/usr/share
     ports:
       - "3000:3000"
+    environment:
+      - STAGE=DEV
 
   flask-server:
     build: server/.
     volumes:
-      - ~/git_wa/HIT/Sababa/server/:/usr/share
+      - ./server/:/usr/server
     ports:
       - "8081:8081"
+    environment:
+      - STAGE=DEV
