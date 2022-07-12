@@ -8,6 +8,7 @@ services:
       - "3000:3000"
     environment:
       - STAGE=DEV
+      - WATCHPACK_POLLING=true
 
   flask-server:
     build: server/.
