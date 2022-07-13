@@ -1,0 +1,20 @@
+version: '3.5'
+services:
+  react-app:
+    build: react_app/.
+    volumes:
+      - ./react_app/:/usr/share
+    ports:
+      - "3000:3000"
+    environment:
+      - STAGE=DEV
+      - WATCHPACK_POLLING=true
+
+  flask-server:
+    build: server/.
+    volumes:
+      - ./server/:/usr/server
+    ports:
+      - "8081:8081"
+    environment:
+      - STAGE=DEV

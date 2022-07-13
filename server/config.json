@@ -1,0 +1,10 @@
+{
+    "DEV":{
+        "client_access":"http://localhost:3000",
+        "debug":true
+    },
+    "PROD":{
+        "client_access":"*",
+        "debug":false
+    }
+}
