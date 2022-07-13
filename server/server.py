@@ -27,6 +27,7 @@ class UserTypes(enum.Enum):
 class Genders(enum.Enum):
     male = 1
     female = 2
+    
 
 class Status(enum.Enum):
     open = 1
@@ -39,7 +40,7 @@ class Users(db.Model):
     password = db.Column(db.String(20), nullable=False)
     full_name = db.Column(db.String(20), nullable=False)
     phone_number = db.Column(db.String(11), nullable=False)
-    email = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(50), primary_key=True)
     country = db.Column(db.String(20), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
     user_type = db.Column(db.Enum(UserTypes), nullable=False)
@@ -169,6 +170,37 @@ def getUsers():
         response.status_code = 200
     except:
         response.status_code = 500
+    response.headers['Access-Control-Allow-Origin'] = config['client_access']
+    return response
+
+# POST include username & password 
+# need to be checked in a table with all users 
+# if the described user exists then return user data with TOKEN for further authorization
+@app.route("/api/login", methods=["POST"])
+def login():
+    data = json.loads(request.data)
+    try:
+        if all(x in ['email', 'password'] for x in data.keys()):
+            user = Users.query.filter_by(email=data['email']).first()
+            print(user,file=sys.stderr)
+            if user:
+                response = make_response(jsonify(user.user_as_dict()))
+                response.status_code = 200
+            
+            else:
+                response = make_response(jsonify(error = "Wrong username or password."))
+                response.status_code = 401 
+
+        else:
+            response = make_response(jsonify(error = "Invalid request."))
+            response.status_code = 400
+            print(data,file=sys.stderr)
+            return response
+
+    except Exception as e:
+        print(e,file=sys.stderr)
+        response.status_code = 500
+
     response.headers['Access-Control-Allow-Origin'] = config['client_access']
     return response
 
