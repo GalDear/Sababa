@@ -14,6 +14,10 @@ with open("config.json", "r") as f:
     config = json.load(f)[sys.argv[1]]
 
 app = Flask(__name__, static_url_path='')
+
+import login
+
+
 app.secret_key = "SABABA"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -173,36 +177,11 @@ def getUsers():
     response.headers['Access-Control-Allow-Origin'] = config['client_access']
     return response
 
-# POST include username & password 
-# need to be checked in a table with all users 
-# if the described user exists then return user data with TOKEN for further authorization
-@app.route("/api/login", methods=["POST"])
-def login():
-    data = json.loads(request.data)
-    try:
-        if all(x in ['email', 'password'] for x in data.keys()):
-            user = Users.query.filter_by(email=data['email']).first()
-            print(user,file=sys.stderr)
-            if user:
-                response = make_response(jsonify(user.user_as_dict()))
-                response.status_code = 200
-            
-            else:
-                response = make_response(jsonify(error = "Wrong username or password."))
-                response.status_code = 401 
 
-        else:
-            response = make_response(jsonify(error = "Invalid request."))
-            response.status_code = 400
-            print(data,file=sys.stderr)
-            return response
+###### new files
+#app.register_blueprint(login)
 
-    except Exception as e:
-        print(e,file=sys.stderr)
-        response.status_code = 500
 
-    response.headers['Access-Control-Allow-Origin'] = config['client_access']
-    return response
 
 
 def main():
@@ -211,3 +190,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
