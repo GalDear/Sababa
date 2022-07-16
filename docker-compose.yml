@@ -2,10 +2,10 @@ version: '3.5'
 services:
   app-web:
     build: 
-      context: react_native/
+      context: sababi-front/
       dockerfile: Dockerfile.web
     volumes:
-      - ./react_native/sababi-expo:/usr/share
+      - ./sababi-front:/usr/share
     ports:
       - "19006:19006"
     environment:
@@ -14,10 +14,10 @@ services:
 
   app-android:
     build: 
-      context: react_native/
+      context: sababi-front/
       dockerfile: Dockerfile.android
     volumes:
-      - ./react_native/sababi-expo:/usr/share
+      - ./sababi-front:/usr/share
     ports:
       - "19002:19002"
     environment:
@@ -28,10 +28,10 @@ services:
 
   # app-ios:
   #   build: 
-  #     context: react_native/
+  #     context: sababi-front/
   #     dockerfile: Dockerfile.ios
   #   volumes:
-  #     - ./react_native/sababi-expo:/usr/share
+  #     - ./sababi-front:/usr/share
   #   ports:
   #     - "19008:19008"
   #   environment:

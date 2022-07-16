@@ -3,13 +3,13 @@ FROM node:14
 RUN npm install -g expo-cli
 
 WORKDIR /usr/share/
-COPY sababi-expo/. .
+COPY sababi-front/. .
 
 RUN npm install
 VOLUME /usr/share/
 
-CMD [ "npm", "run", "ios"]
 
+CMD [ "npm", "run", "web"]
 
 #For debugging
 # docker run -it -p 8081:8081 -v ~/git_wa/HIT/Sababa/react_app/:/usr/share/j flask_app_server sh
