@@ -1,4 +1,4 @@
-import React, {useState,setState} from 'react';
+import React, {useState} from 'react';
 import '../App.css'
 function GetUser() {
     
@@ -17,7 +17,7 @@ function GetUser() {
     }
 
     const handleSubmit  = () => {
-        const data = {email:"test"}
+        const data = {email:email}
         fetch('http://localhost:8081/api/get_users', {
         // headers:{ "Access-Control-Allow-Origin": "*"},    
         method: 'POST',
