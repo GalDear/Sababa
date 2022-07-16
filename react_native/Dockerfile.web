@@ -3,7 +3,7 @@ FROM node:14
 RUN npm install -g expo-cli
 
 WORKDIR /usr/share/
-COPY sababi-front/. .
+COPY sababi-expo/. .
 
 RUN npm install
 VOLUME /usr/share/
