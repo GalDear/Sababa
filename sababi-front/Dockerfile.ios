@@ -1,14 +1,15 @@
 FROM node:14
 
-RUN npm install -g create-react-app
+RUN npm install -g expo-cli
 
 WORKDIR /usr/share/
-COPY . .
+COPY sababi-front/. .
 
 RUN npm install
 VOLUME /usr/share/
 
-CMD [ "npm", "start"]
+CMD [ "npm", "run", "ios"]
+
 
 #For debugging
 # docker run -it -p 8081:8081 -v ~/git_wa/HIT/Sababa/react_app/:/usr/share/j flask_app_server sh
