@@ -1,13 +1,40 @@
 version: '3.5'
 services:
-  react-app:
-    build: react_app/.
+  app-web:
+    build: 
+      context: react_native/
+      dockerfile: Dockerfile.web
     volumes:
-      - ./react_app/:/usr/share
+      - ./react_native/sababi-front:/usr/share
     ports:
-      - "3000:3000"
+      - "19006:19006"
     environment:
       - STAGE=DEV
+      - WATCHPACK_POLLING=true
+
+  app-android:
+    build: 
+      context: react_native/
+      dockerfile: Dockerfile.android
+    volumes:
+      - ./react_native/sababi-front:/usr/share
+    ports:
+      - "19007:19007"
+    environment:
+      - STAGE=DEV
+      - WATCHPACK_POLLING=true
+
+  # app-ios:
+  #   build: 
+  #     context: react_native/
+  #     dockerfile: Dockerfile.ios
+  #   volumes:
+  #     - ./react_native/sababi-front:/usr/share
+  #   ports:
+  #     - "19008:19008"
+  #   environment:
+  #     - STAGE=DEV
+  #     - WATCHPACK_POLLING=true
 
   flask-server:
     build: server/.
