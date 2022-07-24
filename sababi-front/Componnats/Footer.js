@@ -4,7 +4,7 @@ import { render } from "react-dom";
 
 
 export function Footer({childToParent}) {
-    const [selected, setSelected] = React.useState(1);
+    const [selected, setSelected] = React.useState(0);
     
     return (<NativeBaseProvider alignSelf="bottom">
         <Box flex={1} bg="black"  width="100%" >
@@ -22,7 +22,7 @@ export function Footer({childToParent}) {
               <Center>
                 {/* <Icon mb="1" as={<MaterialIcons name="search" />} color="white" size="sm" /> */}
                 <Text color="white" fontSize="12">
-                  Search
+                  Chat
                 </Text>
               </Center>
             </Pressable>
@@ -30,7 +30,7 @@ export function Footer({childToParent}) {
               <Center>
                 {/* <Icon mb="1" as={<MaterialCommunityIcons name={selected === 2 ? 'cart' : 'cart-outline'} />} color="white" size="sm" /> */}
                 <Text color="white" fontSize="12">
-                  Cart
+                  Notification
                 </Text>
               </Center>
             </Pressable>
@@ -38,7 +38,7 @@ export function Footer({childToParent}) {
               <Center>
                 {/* <Icon mb="1" as={<MaterialCommunityIcons name={selected === 3 ? 'account' : 'account-outline'} />} color="white" size="sm" /> */}
                 <Text color="white" fontSize="12">
-                  Account
+                  Menu
                 </Text>
               </Center>
             </Pressable>

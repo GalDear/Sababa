@@ -1,22 +1,11 @@
 import * as React from 'react';
 import { View, Text, Button } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HomeScreen } from './Views/MainScreen';
+import { MainScreen } from './Views/MainScreen';
+import { Chat } from './Views/Chat';
 import {Footer} from './Componnats/Footer';
-
-
-function HomeScreen2({navigation}) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen2</Text>
-      <Button title="home" onPress={() => navigation.navigate('Home')}/>
-      
-    </View>
-  );
-}
-
-const Stack = createNativeStackNavigator();
+import { Menu } from './Views/Menu';
+import { Notification } from './Views/Notification';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 function App() {
   
@@ -25,24 +14,37 @@ function App() {
     setData(childdata);
   }
 
-  console.log(data);
-  return (
-    
-    <NavigationContainer>
-      <View style={{
-        height: '95%'
-      }}>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Home2" component={HomeScreen2} />
-      </Stack.Navigator>
+  return (    
+    <SafeAreaView>
+      <View style={{height:'95%'}}>{
+        temp(data)
+      }
       </View>
       <View style={{
         height: '5%'
       }}><Footer childToParent={childToParent}></Footer></View>
-    </NavigationContainer>
-    
+    </SafeAreaView>
   );
 }
 
 export default App;
+
+
+function temp(data){
+
+    if(data == 0){
+      return <MainScreen></MainScreen>
+    }
+    if(data == 1){
+      return <Chat></Chat>
+    }
+    if(data == 2){
+      return <Notification></Notification>
+    }
+    if(data == 3){
+      return <Menu></Menu>
+    }
+    else{
+      return null
+    }
+}
