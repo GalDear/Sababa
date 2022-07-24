@@ -14,11 +14,12 @@ def user_registration():
             print(new_user)
             db.session.add(new_user)
             db.session.commit()
-            response = make_response({'id':new_user.id})
+            response = make_response({'success':True})
             print(new_user)
         except Exception as e:
             print(e)
             response.status_code = 500
+            response = make_response({'success':False})
     response.headers['Access-Control-Allow-Origin'] = '*'
     return response
         
