@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, Text, Button } from 'react-native';
-
+import { Image, Box,HStack,AspectRatio,Center,Text,Stack,Heading } from "native-base";
 
 export function ExtraSettings({navigation}) {
     return (

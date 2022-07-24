@@ -6,10 +6,10 @@ import { render } from "react-dom";
 export function Footer({childToParent}) {
     const [selected, setSelected] = React.useState(0);
     
-    return (<NativeBaseProvider alignSelf="bottom">
-        <Box flex={1} bg="black"  width="100%" >
+    return (<NativeBaseProvider>
+        <Box flex={1} bg="white"  width="100%" safeAreaTop alignSelf={"center"} >
           <Center flex={1}></Center>
-          <HStack height='100%' bg="indigo.600" alignItems="center" safeAreaBottom shadow={6}>
+          <HStack bg="indigo.600" alignItems="center" safeAreaBottom shadow={6}>
             <Pressable cursor="pointer" opacity={selected === 0 ? 1 : 0.5} py="3" flex={1} onPress={() => [childToParent(0),setSelected(0)]}>
               <Center>
                 {/* <Icon mb="1" as={<MaterialCommunityIcons name={selected === 0 ? 'home' : 'home-outline'} />} color="white" size="sm" /> */}
