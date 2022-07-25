@@ -51,7 +51,7 @@ class Ads(db.Model):
     estimated_time = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Integer, nullable=False)
     status = db.Column(db.Enum(Status), nullable=False)
-    created_at = db.Column(db.Date, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False)
 
     def ad_as_dict(self):
         return {'id': self.id, 'title': self.title, 'user_id': self.user_id,
@@ -67,13 +67,13 @@ class AdMatches(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     ad_id = db.Column(db.Integer, db.ForeignKey('ads.id'), nullable=False)
     client_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    match_time = db.Column(db.Date, nullable=False)
+    match_time = db.Column(db.DateTime, nullable=False)
 
     def match_as_dict(self):
         return {'id': self.id,'ad_id': self.ad_id, 'client_id': self.client_id, 'match_time': self.match_time.strftime('%Y-%m-%d')}
 
     def __repr__(self):
-        return f"AdMatches('{self.id}', '{self.client_id},' '{self.match_time.strftime('%Y-%m-%d')}')"
+        return f"AdMatches('{self.id}', '{self.client_id}', '{self.match_time.strftime('%Y-%m-%d')}')"
 
 
 class Offers(db.Model):
@@ -82,7 +82,7 @@ class Offers(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     status = db.Column(db.Enum(Status), nullable=False)
     final_price = db.Column(db.Integer, nullable=False)
-    created_at = db.Column(db.Date, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False)
     description = db.Column(db.Text)
 
     def offer_as_dict(self):
@@ -92,9 +92,11 @@ class Offers(db.Model):
 
 class Chat(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    sender = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    receiver = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     ad_id = db.Column(db.Integer, db.ForeignKey('ads.id'), nullable=False)
     messages = db.relationship('Message', backref='chat_messages', lazy=True)
-    starting_time = db.Column(db.Date, nullable=False)
+    starting_time = db.Column(db.DateTime, nullable=False)
 
     def chat_as_dict(self):
         return {'id': self.id, 'ad_id': self.ad_id, 'messages': self.messages, 'starting_time': self.starting_time.strftime('%Y-%m-%d')}
@@ -107,12 +109,15 @@ class Message(db.Model):
     chat_id = db.Column(db.Integer, db.ForeignKey('chat.id'), nullable=False)
     sender_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     message = db.Column(db.Text, nullable=False)
-    offer_id = db.Column(db.Integer, db.ForeignKey('offers.id'), nullable=False)
+    offer_id = db.Column(db.Integer, db.ForeignKey('offers.id'))
     time = db.Column(db.DateTime(), nullable=False)
 
 
     def message_as_dict(self):
-        return {'id': self.id, 'sender_id': self.sender_id, 'message': self.message, 'offer_id': self.offer_id, 'time': self.time}
+        return {'id': self.id,'chat_id':self.chat_id, 'sender_id': self.sender_id, 'data': self.message, 'offer_id': self.offer_id, 'time': self.time.strftime('%Y-%m-%d')}
+    
+    def get_message(self):
+        return self.message
 
     def __repr__(self):
-        return f"Message('{self.id}', '{self.sender_id}', '{self.message},' '{self.offer_id},' '{self.time}')"
+        return f"Message('{self.id}','{self.chat_id}', '{self.sender_id}', '{self.message},' '{self.offer_id},' '{self.time}')"

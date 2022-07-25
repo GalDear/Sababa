@@ -1,6 +1,7 @@
 from db_models import Users,db
 import json
 from flask import make_response,jsonify,request
+from datetime import datetime
 
 
 def user_registration():
@@ -10,7 +11,7 @@ def user_registration():
         data = json.loads(request.data)
         print(data)
         try:
-            new_user = Users(password=data['password'], full_name=data['full_name'], phone_number=data['phone_number'], email=data['email'],country=data['country'],created_at=datetime.today(),user_type=data['user_type'],description=data['description'],foundation=data['foundation'],gender=data['gender'],skills=data['skills'])
+            new_user = Users(id=data['id'],password=data['password'], full_name=data['full_name'], phone_number=data['phone_number'], email=data['email'],country=data['country'],created_at=datetime.today(),user_type=data['user_type'],description=data['description'],foundation=data['foundation'],gender=data['gender'],skills=data['skills'])
             print(new_user)
             db.session.add(new_user)
             db.session.commit()
