@@ -13,7 +13,7 @@ export function Menu() {
         <View style={{
           height: '95%'
         }}>
-        <Stack.Navigator>
+        <Stack.Navigator style={{height:"95%"}}>
           <Stack.Screen name="Settings" component={Settings} />
           <Stack.Screen name="ExtraSettings" component={ExtraSettings} />
         </Stack.Navigator>

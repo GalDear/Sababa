@@ -10,19 +10,19 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 function App() {
   
   const [data, setData] = React.useState('');
-  const childToParent = (childdata) => {
-    setData(childdata);
+  const useStateFigure = (useStateData) => {
+    setData(useStateData);
   }
 
   return (    
     <SafeAreaView>
       <View style={{height:'95%'}}>{
-        temp(data)
+        screenManager(data)
       }
       </View>
       <View style={{
         height: '5%'
-      }}><Footer childToParent={childToParent}></Footer></View>
+      }}><Footer useStateFigure={useStateFigure}></Footer></View>
     </SafeAreaView>
   );
 }
@@ -30,7 +30,7 @@ function App() {
 export default App;
 
 
-function temp(data){
+function screenManager(data){
 
     if(data == 0){
       return <MainScreen></MainScreen>
