@@ -1,32 +1,32 @@
 version: '3.5'
 services:
-  # app-web:
-  #   build: 
-  #     context: sababi-front/
-  #     dockerfile: Dockerfile.web
-  #   volumes:
-  #     - ./sababi-front:/usr/share
-  #   ports:
-  #     - "19006:19006"
-  #   environment:
-  #     - STAGE=DEV
-  #     - WATCHPACK_POLLING=true
+  app-web:
+    build: 
+      context: sababi-front/
+      dockerfile: Dockerfile.web
+    volumes:
+      - ./sababi-front:/usr/share
+    ports:
+      - "19006:19006"
+    environment:
+      - STAGE=DEV
+      - WATCHPACK_POLLING=true
 
-  # app-android:
-  #   build: 
-  #     context: sababi-front/
-  #     dockerfile: Dockerfile.android
-  #   volumes:
-  #     - ./sababi-front:/usr/share
-  #   ports:
-  #     - "19002:19002"
-  #   environment:
-  #     - STAGE=DEV
-  #     - WATCHPACK_POLLING=true
-  #     - ADB_IP="192.168.112.101"
-  #     - REACT_NATIVE_PACKAGER_HOSTNAME="192.168.27.128"
+  #app-android:
+  #  build: 
+  #    context: sababi-front/
+  #    dockerfile: Dockerfile.android
+  #  volumes:
+  #    - ./sababi-front:/usr/share
+  #  ports:
+  #    - "19002:19002"
+  #  environment:
+  #    - STAGE=DEV
+  #    - WATCHPACK_POLLING=true
+  #    - ADB_IP="192.168.112.101"
+  #    - REACT_NATIVE_PACKAGER_HOSTNAME="192.168.27.128"
 
-  # # app-ios:
+  # app-ios:
   #   build: 
   #     context: sababi-front/
   #     dockerfile: Dockerfile.ios

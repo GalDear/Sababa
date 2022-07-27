@@ -3,6 +3,7 @@ from api.login import user_login
 from api.registration import user_registration
 from api.get_users import getUsers
 from api.chat import user_send_message,get_last_messages
+from api.media import image,video
 
 login = Blueprint("login", __name__)
 login.route("/api/login", methods=["POST"])(user_login)
@@ -18,4 +19,10 @@ send_message.route("/api/send_message", methods=["POST"])(user_send_message)
 
 get_messages = Blueprint("get_messages", __name__)
 get_messages.route("/api/get_messages", methods=["POST"])(get_last_messages)
+
+upload_image = Blueprint("upload_image", __name__)
+upload_image.route("/api/upload_image", methods=['GET', 'POST'])(image)
+
+upload_video = Blueprint("upload_video", __name__)
+upload_video.route("/api/upload_video", methods=['GET', 'POST'])(video)
 
