@@ -3,9 +3,7 @@ import { Image, Box,Center,HStack,AspectRatio,Text,Stack,Heading,NativeBaseProvi
 import { MainScreen } from "../Views/MainScreen";
 
 export function Add(props){
-
-  console.log(props.name)
-
+  
   return (<NativeBaseProvider alignItems="center">
   <Box alignItems="center">
       <Box maxW="80" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _dark={{
@@ -30,7 +28,7 @@ export function Add(props){
           fontWeight: "700",
           fontSize: "xs"
         }} position="absolute" bottom="0" px="3" py="1.5">
-            Developer
+            {props.job}
           </Center>
         </Box>
         <Stack p="4" space={3}>
@@ -69,7 +67,7 @@ export function Add(props){
             <Text ml = "2" color="coolGray.600" _dark={{
               color: "warmGray.200"
             }} fontWeight="400">
-                26
+                {props.age}
               </Text>
 {/* ------------------------------------------------------ */}
             <Text fontSize="2xs" color="coolGray.600" _dark={{
@@ -80,8 +78,7 @@ export function Add(props){
             </Stack>
 {/* ------------------------------------------------------ */}
             <Text ml="2">
-              Bengaluru (also called Bangalore) is the center of India's high-tech
-              industry. The city is also known for its parks and nightlife.
+              {props.description}
            </Text>
 {/* ------------------------------------------------------ */}
             <Text fontSize="2xs" color="coolGray.600" _dark={{
@@ -95,7 +92,7 @@ export function Add(props){
               <Text ml="2" color="coolGray.600" _dark={{
               color: "warmGray.200"
             }} fontWeight="400">
-                6.6
+                {props.rating}
               </Text>
             </HStack>
           </HStack>

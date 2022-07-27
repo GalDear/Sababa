@@ -5,7 +5,7 @@ import {AddClass} from '../Model/AddClass'
 
 export function MainScreen() {
   
-  let myAddClass = new AddClass("Daniel George","Android Developer");
+  let myAddClass = new AddClass("Daniel George","Android Developer","26","temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp ","7.0");
 
     return (
     
@@ -17,8 +17,7 @@ export function MainScreen() {
 
         <Flex direction="column" mb="2.5" mt="1.5" alignItems="center" marginTop="5%">
             <Center>
-              
-              <Add name = {myAddClass.name} job = {myAddClass.job}></Add>
+              <Add name = {myAddClass.name} job = {myAddClass.job} age = {myAddClass.age} description = {myAddClass.description} Rating = {myAddClass.rating}></Add>
             </Center>
           </Flex>
 
