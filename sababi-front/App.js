@@ -4,6 +4,7 @@ import { MainScreen } from './Views/MainScreen';
 import { Chat } from './Views/Chat';
 import {Footer} from './Componnats/Footer';
 import { Menu } from './Views/Menu';
+import { Login } from './Views/Login';
 import { Notification } from './Views/Notification';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -13,10 +14,29 @@ function App() {
   const useStateFigure = (useStateData) => {
     setData(useStateData);
   }
-
+// return(
+//   <Login></Login>
+// );
+if(data == 0)
+{
+  return (    
+    <SafeAreaView>
+      <View style={{height:'100%'}}>{
+        
+        <Login useStateFigure={useStateFigure}></Login>
+      }
+      </View>
+      <View style={{
+        height: '0%'
+      }}><Footer useStateFigure={useStateFigure}></Footer></View>
+    </SafeAreaView>
+  );
+}
+else{
   return (    
     <SafeAreaView>
       <View style={{height:'95%'}}>{
+        
         screenManager(data)
       }
       </View>
@@ -26,22 +46,25 @@ function App() {
     </SafeAreaView>
   );
 }
+}
 
 export default App;
 
 
 function screenManager(data){
-
-    if(data == 0){
+    // if(data == 0){
+    //   return <Login></Login>
+    // }
+    if(data == 1){
       return <MainScreen></MainScreen>
     }
-    if(data == 1){
+    if(data == 2){
       return <Chat></Chat>
     }
-    if(data == 2){
+    if(data == 3){
       return <Notification></Notification>
     }
-    if(data == 3){
+    if(data == 4){
       return <Menu></Menu>
     }
     else{
