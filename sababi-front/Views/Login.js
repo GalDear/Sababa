@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Box, Heading, Text, Center, Input, FormControl, Link, Button, NativeBaseProvider,HStack, VStack } from "native-base";
-import { render } from "react-dom";
+
 
 export function Login({useStateFigure}) {
     const [selected, setSelected] = React.useState(0);
@@ -49,7 +49,7 @@ export function Login({useStateFigure}) {
               color: "indigo.500",
               fontWeight: "medium",
               fontSize: "sm"
-            }} href="#">
+            }} onPress={() => [useStateFigure(5),setSelected(5)]}>
                 Sign Up
               </Link>
             </HStack>

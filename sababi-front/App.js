@@ -5,6 +5,7 @@ import { Chat } from './Views/Chat';
 import {Footer} from './Componnats/Footer';
 import { Menu } from './Views/Menu';
 import { Login } from './Views/Login';
+import { Register } from './Views/Register';
 import { Notification } from './Views/Notification';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -26,9 +27,17 @@ if(data == 0)
         <Login useStateFigure={useStateFigure}></Login>
       }
       </View>
-      <View style={{
-        height: '0%'
-      }}><Footer useStateFigure={useStateFigure}></Footer></View>
+    </SafeAreaView>
+  );
+}
+if(data == 5){
+  return (    
+    <SafeAreaView>
+      <View style={{height:'100%'}}>{
+        
+        <Register useStateFigure={useStateFigure}></Register>
+      }
+      </View>
     </SafeAreaView>
   );
 }
