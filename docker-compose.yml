@@ -1,16 +1,17 @@
 version: '3.5'
 services:
-  app-web:
-    build: 
-      context: sababi-front/
-      dockerfile: Dockerfile.web
-    volumes:
-      - ./sababi-front:/usr/share
-    ports:
-      - "19006:19006"
-    environment:
-      - STAGE=DEV
-      - WATCHPACK_POLLING=true
+  # app-web:
+  #   build: 
+  #     context: sababi-front/
+  #     dockerfile: Dockerfile.web
+  #   volumes:
+  #     - ./sababi-front:/usr/share
+  #   ports:
+  #     - "19000:19000"
+  #     - "19002:19002"
+  #   environment:
+  #     - STAGE=DEV
+  #     - WATCHPACK_POLLING=true
 
   #app-android:
   #  build: 
