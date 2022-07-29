@@ -1,11 +1,23 @@
 import React from "react";
-import { Box, Heading, Text, Center, Input, FormControl, Button, NativeBaseProvider, VStack } from "native-base";
-
+import { ScrollView, Switch, Box, Heading, Text, Center, Input, FormControl, Button, NativeBaseProvider, VStack, View, HStack } from "native-base";
+import Media from '../Componnats/UploadMedia';
+import { TextInput } from "react-native-gesture-handler";
 
 export function Register({useStateFigure}) {
     const [selected, setSelected] = React.useState(0);
 
+    {/* For the switcher that you choose if you are recruier or worker */}
+    const [enabled, setEnabled] = React.useState(false)
+    const toggleSwitch = () => {
+        setEnabled(oldValue => !oldValue)
+      }
+      const thumbColorOn = Platform.OS === "android" ? "#0cd1e8" : "#f3f3f3"
+      const thumbColorOff = Platform.OS === "android" ? "#f04141" : "#f3f3f3"
+      const trackColorOn = Platform.OS === "android" ? "#98e7f0" : "#0cd1e8"
+      const trackColorOff = Platform.OS === "android" ? "#f3adad" : "#f04141"
+
     return (<NativeBaseProvider>
+        <ScrollView>
         <Center w="100%">
         <Box safeArea p="2" w="90%" maxW="290" py="8">
           <Heading size="lg" color="coolGray.800" _dark={{
@@ -19,23 +31,100 @@ export function Register({useStateFigure}) {
             Sign up to continue!
           </Heading>
           <VStack space={3} mt="5">
-            <FormControl>
+            <FormControl>       {/* Full Name */}
+              <FormControl.Label>Full name</FormControl.Label>
+              <Input />
+            </FormControl>
+            <FormControl>       {/* Email */}
               <FormControl.Label>Email</FormControl.Label>
               <Input />
             </FormControl>
-            <FormControl>
+            <FormControl>       {/* Password */}
               <FormControl.Label>Password</FormControl.Label>
               <Input type="password" />
             </FormControl>
-            <FormControl>
+            <FormControl>       {/* Confirm Password */}
               <FormControl.Label>Confirm Password</FormControl.Label>
               <Input type="password" />
             </FormControl>
+            <FormControl>       {/* Phone Number */}
+              <FormControl.Label>Phone Number</FormControl.Label>
+              <Input />
+            </FormControl>
+            <FormControl>       {/* Upload Image */}
+              <FormControl.Label>Upload Profile Image </FormControl.Label>
+              <View height={10}><Media></Media></View>
+            </FormControl>
+
+
+
+
+            <FormControl alignItems={"center"}>     {/* Switcher. Choosing if you are recruier or worker */}
+            <HStack alignItems={"center"} space={4}>
+                <Text>Recruiter</Text>
+                      <Switch
+                    onValueChange={toggleSwitch}
+                    value={enabled}
+                    thumbColor={enabled ? thumbColorOn : thumbColorOff}
+                    trackColor={{ false: trackColorOff, true: trackColorOn }}
+                    ios_backgroundColor={trackColorOff}
+                    />
+                <Text>Worker</Text>
+            </HStack>
+            </FormControl>
+ 
+            {/* Will perfom */}
+            {enabled ?                              
+            <FormControl alignItems={"center"}>     {/* Worker */}   
+            <FormControl>
+                <FormControl.Label>Job Title</FormControl.Label>
+                <Input />
+            </FormControl>
+            <FormControl>
+                <FormControl.Label>Skills</FormControl.Label>
+                <Input />
+                </FormControl>
+            <FormControl>
+                <FormControl.Label>Gender</FormControl.Label>
+                <Input />
+            </FormControl> 
+            <FormControl>
+                <FormControl.Label>Birthday</FormControl.Label>
+                <Input />
+            </FormControl>    
+            </FormControl>
+            : 
+            <FormControl alignItems={"center"}>     {/* Recruiter */} 
+            <FormControl>
+                <FormControl.Label>Company Founding</FormControl.Label>
+                <Input />
+            </FormControl> 
+            <FormControl>
+                <FormControl.Label>Country</FormControl.Label>
+                <Input />
+            </FormControl> 
+            <FormControl>
+                <FormControl.Label>Line Of Business </FormControl.Label>
+                <Input />
+            </FormControl> 
+            </FormControl>
+             }{/* Finished with type of account */} 
+
+
+            <FormControl>           {/* Description */} 
+                <FormControl.Label>Description</FormControl.Label>
+                <Input
+                multiline={true}
+                numberOfLines={10}
+                style={{ height:200, textAlignVertical: 'top',}}/>
+            </FormControl> 
+
             <Button mt="2" colorScheme="indigo" onPress={() => [useStateFigure(0),setSelected(0)]}>
               Sign up
             </Button>
           </VStack>
         </Box>
       </Center>
+      </ScrollView>
       </NativeBaseProvider>);
   };
