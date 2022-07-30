@@ -1,6 +1,7 @@
 import React from "react";
 import { ScrollView, Switch, Box, Heading, Text, Center, Input, FormControl, Button, NativeBaseProvider, VStack, View, HStack } from "native-base";
 import Media from '../Componnats/UploadMedia';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TextInput } from "react-native-gesture-handler";
 
 export function Register({useStateFigure}) {
@@ -20,14 +21,14 @@ export function Register({useStateFigure}) {
         <ScrollView>
         <Center w="100%">
         <Box safeArea p="2" w="90%" maxW="290" py="8">
-          <Heading size="lg" color="coolGray.800" _dark={{
-          color: "warmGray.50"
-        }} fontWeight="semibold">
+          <Heading size="lg" color="coolGray.800" textAlign={"center"} fontSize="40" _dark={{
+          color: "warmGray.50" 
+        }} fontWeight="bold">
             Welcome
           </Heading>
           <Heading mt="1" color="coolGray.600" _dark={{
           color: "warmGray.200"
-        }} fontWeight="medium" size="xs">
+        }} fontWeight="medium" textAlign={"center"} size="xs">
             Sign up to continue!
           </Heading>
           <VStack space={3} mt="5">
@@ -118,7 +119,8 @@ export function Register({useStateFigure}) {
                 numberOfLines={10}
                 style={{ height:200, textAlignVertical: 'top',}}/>
             </FormControl> 
-
+            
+            {/* On press will moved to login page*/}  
             <Button mt="2" colorScheme="indigo" onPress={() => [useStateFigure(0),setSelected(0)]}>
               Sign up
             </Button>

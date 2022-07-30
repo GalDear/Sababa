@@ -9,14 +9,14 @@ export function Login({useStateFigure}) {
     return (<NativeBaseProvider>
         <Center w="100%" style={{height:'100%'}}>
         <Box safeArea p="2" py="8" w="90%" maxW="290">
-          <Heading size="lg" fontWeight="600" color="coolGray.800" _dark={{
+          <Heading size="lg" fontSize="40" fontWeight="bold" textAlign={"center"} color="coolGray.800" _dark={{
           color: "warmGray.50"
         }}>
             Welcome
           </Heading>
           <Heading mt="1" _dark={{
           color: "warmGray.200"
-        }} color="coolGray.600" fontWeight="medium" size="xs">
+        }} color="coolGray.600" textAlign={"center"} fontWeight="medium" size="xs">
             Sign in to continue!
           </Heading>
   
