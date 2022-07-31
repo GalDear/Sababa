@@ -3,7 +3,7 @@ import json
 from flask import Flask
 # from flask_cors import CORS, cross_origin
 from db_models import db
-from routes import login, registration, get_users
+from routes import login, registration, get_users, settings
 with open("config.json", "r") as f:
     config = json.load(f)[sys.argv[1]]
 
@@ -24,6 +24,7 @@ db.init_app(app)
 app.register_blueprint(login)
 app.register_blueprint(registration)
 app.register_blueprint(get_users)
+app.register_blueprint(settings)
 
 
 sys.stdout = sys.stderr
