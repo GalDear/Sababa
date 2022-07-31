@@ -1,11 +1,16 @@
-import React from "react";
+import React, {useState,setState,useMemo} from "react";
 import { ScrollView, Switch, Box, Heading, Text, Center, Input, FormControl, Button, NativeBaseProvider, VStack, View, HStack } from "native-base";
 import Media from '../Componnats/UploadMedia';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TextInput } from "react-native-gesture-handler";
 
+
+
+
+
 export function Register({useStateFigure}) {
     const [selected, setSelected] = React.useState(0);
+    const [email, setEmail] = useState("");
 
     {/* For the switcher that you choose if you are recruier or worker */}
     const [enabled, setEnabled] = React.useState(false)
@@ -16,6 +21,38 @@ export function Register({useStateFigure}) {
       const thumbColorOff = Platform.OS === "android" ? "#f04141" : "#f3f3f3"
       const trackColorOn = Platform.OS === "android" ? "#98e7f0" : "#0cd1e8"
       const trackColorOff = Platform.OS === "android" ? "#f3adad" : "#f04141"
+
+
+
+      const handleInputChange = (e) => {
+              
+          const {id , value} = e;
+            console.log(id,value);
+          if(id === "fulltName"){
+              setFirstName(value);
+          }
+          if(id === "email"){
+            console.log(value);
+              setEmail(value);
+          }
+          if(id === "password"){
+              setPassword(value);
+          }
+          if(id === "confirmPassword"){
+              setConfirmPassword(value);
+          }
+          if(id === "phoneNumber"){
+              setPhoneNumber(value);
+          }
+          if(id === "userType"){
+              setUserType(value);
+          }
+          if(id === "description"){
+              setDescription(value);
+          }
+      
+      }
+
 
     return (<NativeBaseProvider>
         <ScrollView>
@@ -38,7 +75,8 @@ export function Register({useStateFigure}) {
             </FormControl>
             <FormControl>       {/* Email */}
               <FormControl.Label>Email</FormControl.Label>
-              <Input />
+              <Input id="email" value={email} onPress = {(e) => handleInputChange(e)} placeholder="Eamil"/>
+              {/* <Input /> */}
             </FormControl>
             <FormControl>       {/* Password */}
               <FormControl.Label>Password</FormControl.Label>
