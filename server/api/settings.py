@@ -57,6 +57,15 @@ def getUserInfo():
     response.headers['Access-Control-Allow-Origin'] = '*'
     return response
 
+
+# need to recive in data users email 
+# and then all to values to be updated.
+# exaple:
+# {
+#     "email":"email" ##### must
+#     "full_name":"..." #### optional
+#     "phone_number":"..." #### optional
+# }
 def updateUserInfo():
     response = make_response(jsonify({'status':200}))
     response.status_code = 200
