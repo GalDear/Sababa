@@ -1,3 +1,4 @@
+import json
 from flask_sqlalchemy import SQLAlchemy
 import enum
 db = SQLAlchemy()
@@ -56,6 +57,11 @@ class Users(db.Model):
 
     def __repr__(self):
         return f"Users('{self.id}', '{self.full_name}', '{self.email}', '{self.created_at.strftime('%Y-%m-%d')}','{self.user_type}')"
+    
+    def update(self, update_json: json):
+        for col_name in self.__table__.columns.keys():
+            if col_name in update_json:
+                setattr(self, col_name, update_json[col_name])
 
 
 class Ads(db.Model):

@@ -2,7 +2,7 @@ from flask import Blueprint
 from api.login import user_login
 from api.registration import user_registration
 from api.get_users import getUsers
-from api.settings import getSettings
+from api.settings import getSettings,getUserInfo,updateUserInfo
 
 login = Blueprint("login", __name__)
 login.route("/api/login", methods=["POST"])(user_login)
@@ -15,3 +15,5 @@ get_users.route("/api/get_users", methods=["POST"])(getUsers)
 
 settings = Blueprint("settings", __name__)
 settings.route("/api/settings", methods=["GET"])(getSettings)
+settings.route("/api/getUserinfo", methods=["GET"])(getUserInfo)
+settings.route("/api/updateUserInfo", methods=["POST"])(updateUserInfo)
