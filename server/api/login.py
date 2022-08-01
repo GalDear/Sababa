@@ -9,9 +9,7 @@ def user_login():
             user = Users.query.filter_by(email=data['email']).first()
             print(user)
             if user:
-                response = make_response(jsonify(user.user_as_dict()))
-                response.status_code = 200
-            
+                response = make_response(jsonify(user.user_as_dict()))            
             else:
                 response = make_response(jsonify(error = "Wrong username or password."))
                 response.status_code = 401 

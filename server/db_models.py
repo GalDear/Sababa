@@ -27,6 +27,7 @@ class Users(db.Model):
     country = db.Column(db.String(20), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
     user_type = db.Column(db.Enum(UserTypes), nullable=False)
+    images = db.relationship('UserMedia', backref='user_images', lazy=True)
     description = db.Column(db.Text)
     foundation = db.Column(db.String(20))
     gender = db.Column(db.Enum(Genders))
@@ -52,6 +53,7 @@ class Ads(db.Model):
     price = db.Column(db.Integer, nullable=False)
     status = db.Column(db.Enum(Status), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
+    images = db.relationship('AdMedia', backref='ad_images', lazy=True)
 
     def ad_as_dict(self):
         return {'id': self.id, 'title': self.title, 'user_id': self.user_id,
@@ -111,6 +113,7 @@ class Message(db.Model):
     message = db.Column(db.Text, nullable=False)
     offer_id = db.Column(db.Integer, db.ForeignKey('offers.id'))
     time = db.Column(db.DateTime(), nullable=False)
+    images = db.relationship('MessageMedia', backref='message_images', lazy=True)
 
 
     def message_as_dict(self):
@@ -121,3 +124,38 @@ class Message(db.Model):
 
     def __repr__(self):
         return f"Message('{self.id}','{self.chat_id}', '{self.sender_id}', '{self.message},' '{self.offer_id},' '{self.time}')"
+
+class UserMedia(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    link_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    type = db.Column(db.String(10), nullable=False)
+
+    def get_filename(self):
+        return f"user_{self.id}_{self.link_id}.{self.type}"
+
+    def __repr__(self):
+        return f"Message('{self.id}', '{self.link_id}')"
+
+class AdMedia(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    link_id = db.Column(db.Integer, db.ForeignKey('ads.id'), nullable=False)
+    type = db.Column(db.String(10), nullable=False)
+
+    def get_filename(self):
+        return f"ad_{self.id}_{self.link_id}.{self.type}"
+
+    def __repr__(self):
+        return f"Message('{self.id}', '{self.link_id}')"
+
+class MessageMedia(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    link_id = db.Column(db.Integer, db.ForeignKey('message.id'), nullable=False)
+    type = db.Column(db.String(10), nullable=False)
+
+
+    def get_filename(self):
+        return f"message_{self.id}_{self.link_id}.{self.type}"
+
+    def __repr__(self):
+        return f"Message('{self.id}', '{self.link_id}')"
+
