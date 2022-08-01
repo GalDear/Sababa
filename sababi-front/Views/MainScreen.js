@@ -1,9 +1,10 @@
 import { Add } from '../Componnats/Add';
-import { NativeBaseProvider,Center, Box, Container,HStack, Heading,NBBox,Flex,Divider,Button} from 'native-base';
+import { NativeBaseProvider,Center, Box, Container,HStack, Heading,NBBox,Flex,Divider,Button,useToast} from 'native-base';
 import {AddClass} from '../Model/AddClass'
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import SwipeCards from "react-native-swipe-cards-deck";
+import Toast from 'react-native-root-toast';
 
 function StatusCard({ text }) {
  return (
@@ -14,7 +15,6 @@ function StatusCard({ text }) {
 }
 
 export function MainScreen() {
-
  const [cards, setCards] = useState();
  let add = [{
    name:"Shahar Baba",
@@ -51,6 +51,7 @@ export function MainScreen() {
        [
         {
            name: add[0].name , job:add[0].job , age:add[0].age , description:add[0].description, Rating:add[0].Rating
+           
         },
         {
         name: add[1].name , job:add[1].job , age:add[1].age , description:add[1].description, Rating:add[1].Rating
@@ -68,10 +69,12 @@ export function MainScreen() {
 
  function handleYup(card) {
    console.log(`Yup for ${card.name}`);
+   let toast = Toast.show("Yup",{backgroundColor:"green",duration:Toast.durations.SHORT});
    return true; // return false if you wish to cancel the action
  }
  function handleNope(card) {
    console.log(`Nope for ${card.name}`);
+   let toast = Toast.show("Nope",{backgroundColor:"red",duration:Toast.durations.SHORT});
    return true;
  }
  function handleMaybe(card) {
@@ -79,8 +82,8 @@ export function MainScreen() {
    return false;
  }
 
+
    return (
-   
      <NativeBaseProvider>
 
            <Center marginTop="10%">
@@ -92,15 +95,16 @@ export function MainScreen() {
             {cards ? (
              <SwipeCards cards={cards}
                          renderCard={(cardData) => <Add data={cardData} />}
+                         keyExtractor={(cardData) => String(cardData.text)}
                          renderNoMoreCards={() => <StatusCard text="No more cards..." />}
                          actions={{
-                             nope: { onAction: handleNope },
-                             yup: { onAction: handleYup },
-                             maybe: { onAction: handleMaybe },
+                             nope: { onAction: handleNope ,show:false},
+                             yup: { onAction: handleYup ,show:false},
+                             maybe: { onAction: handleMaybe,show:false },
+                             
                          }}
                          hasMaybeAction={true}
                          loop={true}
-                         actions={actions}
                          />
             ):(
               <StatusCard text="Loading..."/>
@@ -130,7 +134,3 @@ const styles = StyleSheet.create({
    fontSize: 22,
  },
 });
-
-const actions = {
-  maybe: { show: false }, 
-}
