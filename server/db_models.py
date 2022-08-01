@@ -132,9 +132,12 @@ class UserMedia(db.Model):
 
     def get_filename(self):
         return f"user_{self.id}_{self.link_id}.{self.type}"
+        
+    def get_type(self):
+        return f"{self.type}"
 
     def __repr__(self):
-        return f"Message('{self.id}', '{self.link_id}')"
+        return f"user('{self.id}', '{self.link_id}')"
 
 class AdMedia(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -145,7 +148,7 @@ class AdMedia(db.Model):
         return f"ad_{self.id}_{self.link_id}.{self.type}"
 
     def __repr__(self):
-        return f"Message('{self.id}', '{self.link_id}')"
+        return f"ad('{self.id}', '{self.link_id}')"
 
 class MessageMedia(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -157,5 +160,5 @@ class MessageMedia(db.Model):
         return f"message_{self.id}_{self.link_id}.{self.type}"
 
     def __repr__(self):
-        return f"Message('{self.id}', '{self.link_id}')"
+        return f"message('{self.id}', '{self.link_id}')"
 

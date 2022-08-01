@@ -18,7 +18,6 @@ def update_db(attachment_type,attachment_linkid,type):
 
 def save_media():
     response = make_response()
-    print(request)
     if(request.method == "POST"):
         try:
             bytesOfMedia = request.get_data() # media content base64
@@ -39,10 +38,16 @@ def save_media():
 
 def user_image():
     user_id = request.headers['User-Id']
-    filename = UserMedia.query.filter_by(id = user_id).order_by(UserMedia.id.desc()).first().get_filename()
+    media = UserMedia.query.filter_by(link_id = user_id).order_by(UserMedia.id.desc()).first()
+    filename = media.get_filename()
+    type = media.get_type()
     print(f"filename = {filename}")
     with open(f'files/{filename}', "rb") as f:
         encodedZip = base64.b64encode(f.read())
-    img = encodedZip.decode()
-    response = make_response(jsonify(image = img))
+    if type == 'jpeg':
+        img = encodedZip.decode()
+        response = make_response(jsonify(media = img, type='jpeg'))
+    elif type == 'mp4':
+        video = encodedZip.decode()
+        response = make_response(jsonify(media = video, type='mp4'))
     return response
