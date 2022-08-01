@@ -1,20 +1,50 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from 'react';
+import { View, Text, Button } from 'react-native';
+import { MainScreen } from './Views/MainScreen';
+import { Chat } from './Views/Chat';
+import {Footer} from './Componnats/Footer';
+import { Menu } from './Views/Menu';
+import { Notification } from './Views/Notification';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+function App() {
+  
+  const [data, setData] = React.useState('');
+  const useStateFigure = (useStateData) => {
+    setData(useStateData);
+  }
+
+  return (    
+    <SafeAreaView>
+      <View style={{height:'95%'}}>{
+        screenManager(data)
+      }
+      </View>
+      <View style={{
+        height: '5%'
+      }}><Footer useStateFigure={useStateFigure}></Footer></View>
+    </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
+
+
+function screenManager(data){
+
+    if(data == 0){
+      return <MainScreen></MainScreen>
+    }
+    if(data == 1){
+      return <Chat></Chat>
+    }
+    if(data == 2){
+      return <Notification></Notification>
+    }
+    if(data == 3){
+      return <Menu></Menu>
+    }
+    else{
+      return null
+    }
+}
