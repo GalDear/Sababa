@@ -1,9 +1,10 @@
 import React, {useState,setState,useMemo} from "react";
-import { ScrollView, Switch, Box, Heading, Text, Center, Input, FormControl, Button, NativeBaseProvider, VStack, View, HStack } from "native-base";
+import { Keyboard,textInput, Alert, ScrollView, Switch, Box, Heading, Text, Center,  FormControl, Button, NativeBaseProvider, VStack, View, HStack } from "native-base";
+import {StyleSheet} from 'react-native';
 import Media from '../Componnats/UploadMedia';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { TextInput } from "react-native-gesture-handler";
 
+import Input from '../Componnats/Input';
 
 
 
@@ -24,34 +25,119 @@ export function Register({useStateFigure}) {
 
 
 
-      const handleInputChange = (e) => {
-              
-          const {id , value} = e;
-            console.log(id,value);
-          if(id === "fulltName"){
-              setFirstName(value);
-          }
-          if(id === "email"){
-            console.log(value);
-              setEmail(value);
-          }
-          if(id === "password"){
-              setPassword(value);
-          }
-          if(id === "confirmPassword"){
-              setConfirmPassword(value);
-          }
-          if(id === "phoneNumber"){
-              setPhoneNumber(value);
-          }
-          if(id === "userType"){
-              setUserType(value);
-          }
-          if(id === "description"){
-              setDescription(value);
-          }
       
-      }
+
+
+      const [inputs, setInputs] = React.useState({
+        email: '',
+        fullname: '',
+        phone: '',
+        password: '',
+        confirm_password: '',
+      });
+      const [errors, setErrors] = React.useState({});
+      const [loading, setLoading] = React.useState(false);
+    
+      const validate = () => {
+        let isValid = true;
+        
+        if (!inputs.email) {
+          handleError('Please input email', 'email');
+          isValid = false;
+        } else if (!inputs.email.match(/\S+@\S+\.\S+/)) {
+          handleError('Please input a valid email', 'email');
+          isValid = false;
+        }
+    
+        if (!inputs.fullname) {
+          handleError('Please input fullname', 'fullname');
+          isValid = false;
+        }
+    
+        if (!inputs.phone) {
+          handleError('Please input phone number', 'phone');
+          isValid = false;
+        }
+    
+        if (!inputs.password) {
+          handleError('Please input password', 'password');
+          isValid = false;
+        } else if (inputs.password.length < 5) {
+          handleError('Min password length of 5', 'password');
+          isValid = false;
+        }
+
+        if (!inputs.confirm_password) {
+            handleError('Please input confirm password', 'confirm_password');
+          isValid = false;
+        } else if (inputs.password != inputs.confirm_password) {
+          handleError('Incorrect confirm password', 'confirm_password');
+          isValid = false;
+        }
+        
+    
+        if (isValid) {
+          useStateFigure(0);
+          setSelected(0);
+          register();
+        }
+      };
+    
+      const register = () => {
+        setLoading(true);
+        setTimeout(() => {
+          try {
+            setLoading(false);
+            AsyncStorage.setItem('userData', JSON.stringify(inputs));
+          } catch (error) {
+            Alert.alert('Error', 'Something went wrong');
+          }
+        }, 3000);
+      };
+    
+      const handleOnchange = (text, input) => {
+        setInputs(prevState => ({...prevState, [input]: text}));
+      };
+      const handleError = (error, input) => {
+        setErrors(prevState => ({...prevState, [input]: error}));
+      };
+
+
+
+
+
+
+
+
+
+    //   const handleInputChange = (e) => {
+              
+    //       const {id , value} = e;
+    //         console.log(id,value);
+    //       if(id === "fulltName"){
+    //           setFirstName(value);
+    //       }
+    //       if(id === "email"){
+    //         console.log(value);
+    //           setEmail(value);
+    //       }
+    //       if(id === "password"){
+    //           setPassword(value);
+    //       }
+    //       if(id === "confirmPassword"){
+    //           setConfirmPassword(value);
+    //       }
+    //       if(id === "phoneNumber"){
+    //           setPhoneNumber(value);
+    //       }
+    //       if(id === "userType"){
+    //           setUserType(value);
+    //       }
+    //       if(id === "description"){
+    //           setDescription(value);
+    //       }
+      
+    //   }
 
 
     return (<NativeBaseProvider>
@@ -68,27 +154,66 @@ export function Register({useStateFigure}) {
         }} fontWeight="medium" textAlign={"center"} size="xs">
             Sign up to continue!
           </Heading>
+          
+          
           <VStack space={3} mt="5">
+          <Heading mt="1" color="#ff0000" _dark={{
+        }} fontWeight="medium" size="xs">
+            * Required labels 
+          </Heading>
             <FormControl>       {/* Full Name */}
-              <FormControl.Label>Full name</FormControl.Label>
-              <Input />
+              <FormControl.Label>* Full name</FormControl.Label>
+              <Input 
+              onChangeText={text => handleOnchange(text, 'fullname')}
+              onFocus={() => handleError(null, 'fullname')}
+              iconName="account-outline"
+              placeholder="Enter your full name"
+              error={errors.fullname}
+              />
             </FormControl>
             <FormControl>       {/* Email */}
-              <FormControl.Label>Email</FormControl.Label>
-              <Input id="email" value={email} onPress = {(e) => handleInputChange(e)} placeholder="Eamil"/>
+              <FormControl.Label>* Email</FormControl.Label>
+              {/* value={email} onChange = {(e) => handleInputChange(e)} placeholder="Eamil" */}
+              <Input 
+              id="email" 
+              onChangeText={text => handleOnchange(text, 'email')}
+              onFocus={() => handleError(null, 'email')}
+              placeholder="Enter your email address"
+              error={errors.email} />
               {/* <Input /> */}
             </FormControl>
-            <FormControl>       {/* Password */}
-              <FormControl.Label>Password</FormControl.Label>
-              <Input type="password" />
+            <FormControl>       {/* Password - should be equal or above 5 characters */}
+              <FormControl.Label>* Password</FormControl.Label>
+              <Input 
+                  onChangeText={text => handleOnchange(text, 'password')}
+                  onFocus={() => handleError(null, 'password')}
+                  iconName="lock-outline"
+                  placeholder="Enter your password"
+                  error={errors.password}
+                  password
+               />
             </FormControl>
             <FormControl>       {/* Confirm Password */}
-              <FormControl.Label>Confirm Password</FormControl.Label>
-              <Input type="password" />
+              <FormControl.Label>* Confirm Password</FormControl.Label>
+              <Input 
+                onChangeText={text => handleOnchange(text, 'confirm_password')}
+                onFocus={() => handleError(null, 'confirm_password')}
+                iconName="lock-outline"
+                placeholder="Enter your password to confirm"
+                error={errors.confirm_password}
+                confirm_password
+               />
             </FormControl>
             <FormControl>       {/* Phone Number */}
-              <FormControl.Label>Phone Number</FormControl.Label>
-              <Input />
+              <FormControl.Label>* Phone Number</FormControl.Label>
+              <Input 
+                keyboardType="numeric"
+                onChangeText={text => handleOnchange(text, 'phone')}
+                onFocus={() => handleError(null, 'phone')}
+                label="Phone Number"
+                placeholder="Enter your phone no"
+                error={errors.phone}
+              />
             </FormControl>
             <FormControl>       {/* Upload Image */}
               <FormControl.Label>Upload Profile Image </FormControl.Label>
@@ -151,20 +276,38 @@ export function Register({useStateFigure}) {
 
 
             <FormControl>           {/* Description */} 
-                <FormControl.Label>Description</FormControl.Label>
-                <Input
-                multiline={true}
-                numberOfLines={10}
-                style={{ height:200, textAlignVertical: 'top',}}/>
+                <FormControl.Label >Description</FormControl.Label>
+                <Input 
+                      multiline={true}
+                      numberOfLines={20}
+                />
+
             </FormControl> 
             
-            {/* On press will moved to login page*/}  
-            <Button mt="2" colorScheme="indigo" onPress={() => [useStateFigure(0),setSelected(0)]}>
+            {/* Sign up button. On press will moved to login page*/}  
+            <Button 
+            mt="2" 
+            colorScheme="indigo"
+            onPress={validate}
+            title="Register">
               Sign up
             </Button>
+
+            <Text
+            onPress={() => {useStateFigure(0),setSelected(0)}}
+            style={{
+              color: "#000000",
+              fontWeight: 'bold',
+              textAlign: 'center',
+            }}>
+            Already have account? Click here
+          </Text>
+
           </VStack>
         </Box>
       </Center>
       </ScrollView>
       </NativeBaseProvider>);
   };
+
+
