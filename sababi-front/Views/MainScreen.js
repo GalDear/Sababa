@@ -14,6 +14,20 @@ function StatusCard({ text }) {
  );
 }
 
+getdata = async()=>{
+  fetch('http://192.168.1.6:8081/api/get_main_data',
+  {body:{'last_ad':1}})
+.then((response) => response.json())
+.then((data) => {
+  if (data.type == 'jpeg') {
+    this.setState((state, props) => {
+      return {
+        img_base64:data.media
+      };
+    });
+  }
+});
+}
 export function MainScreen() {
  const [cards, setCards] = useState();
  let add = [{
