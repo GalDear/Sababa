@@ -1,6 +1,8 @@
 
 from flask_sqlalchemy import SQLAlchemy
 import enum
+import base64
+from datetime import datetime
 db = SQLAlchemy()
 
 class UserTypes(enum.Enum):
@@ -25,7 +27,7 @@ class Users(db.Model):
     phone_number = db.Column(db.String(11), nullable=False)
     email = db.Column(db.String(50), primary_key=True)
     country = db.Column(db.String(20), nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False,default=datetime.now())
     user_type = db.Column(db.Enum(UserTypes), nullable=False)
     images = db.relationship('UserMedia', backref='user_images', lazy=True)
     description = db.Column(db.Text)
@@ -49,16 +51,35 @@ class Ads(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    description= db.Column(db.Text)
     estimated_time = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Integer, nullable=False)
     status = db.Column(db.Enum(Status), nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False,default=datetime.now())
     images = db.relationship('AdMedia', backref='ad_images', lazy=True)
+    type = db.Column(db.Integer, nullable=False)
+
+    def get_image(id):
+        media = AdMedia.query.filter_by(link_id = id).first()
+        # filename = media.get_filename()
+        filename = 'user_1_1.jpeg'
+        type = media.get_type()
+        print(f"filename = {filename}")
+        with open(f'files/{filename}', "rb") as f:
+            encodedZip = base64.b64encode(f.read())
+        if type == 'jpeg':
+            media = {'media':encodedZip.decode(),'type':'jpeg'}
+        elif type == 'mp4':
+            media = {'media':encodedZip.decode(),'type':'mp4'}
+        return media
+
+    def get_user(id):
+        return Users.query.filter_by(id=id).first().user_as_dict()['full_name']
 
     def ad_as_dict(self):
-        return {'id': self.id, 'title': self.title, 'user_id': self.user_id,
-                'estimated_time': self.estimated_time, 'price': self.price, 'status': self.status,
-                'created_at': self.created_at.strftime('%Y-%m-%d')}
+        return {'id': self.id, 'name':self.get_user(self.user_id), 'job': self.title, 'user_id': self.user_id,
+                'estimated_time': self.estimated_time, 'price': self.price, 'status': self.status, 'images':self.get_image(self.id),
+                'description':self.description , 'type':self.type ,'created_at': self.created_at.strftime('%Y-%m-%d')}
 
     def __repr__(self):
         return f"Ads('{self.id}', '{self.title},' '{self.user_id}', '{self.estimated_time}'," \
@@ -69,7 +90,7 @@ class AdMatches(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     ad_id = db.Column(db.Integer, db.ForeignKey('ads.id'), nullable=False)
     client_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    match_time = db.Column(db.DateTime, nullable=False)
+    match_time = db.Column(db.DateTime, nullable=False,default=datetime.now())
 
     def match_as_dict(self):
         return {'id': self.id,'ad_id': self.ad_id, 'client_id': self.client_id, 'match_time': self.match_time.strftime('%Y-%m-%d')}
@@ -84,7 +105,7 @@ class Offers(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     status = db.Column(db.Enum(Status), nullable=False)
     final_price = db.Column(db.Integer, nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False,default=datetime.now())
     description = db.Column(db.Text)
 
     def offer_as_dict(self):
@@ -98,7 +119,7 @@ class Chat(db.Model):
     receiver = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     ad_id = db.Column(db.Integer, db.ForeignKey('ads.id'), nullable=False)
     messages = db.relationship('Message', backref='chat_messages', lazy=True)
-    starting_time = db.Column(db.DateTime, nullable=False)
+    starting_time = db.Column(db.DateTime, nullable=False,default=datetime.now())
 
     def chat_as_dict(self):
         return {'id': self.id, 'ad_id': self.ad_id, 'messages': self.messages, 'starting_time': self.starting_time.strftime('%Y-%m-%d')}
@@ -112,7 +133,7 @@ class Message(db.Model):
     sender_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     message = db.Column(db.Text, nullable=False)
     offer_id = db.Column(db.Integer, db.ForeignKey('offers.id'))
-    time = db.Column(db.DateTime(), nullable=False)
+    time = db.Column(db.DateTime(), nullable=False,default=datetime.now())
     images = db.relationship('MessageMedia', backref='message_images', lazy=True)
 
 

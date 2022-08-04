@@ -16,80 +16,83 @@ function StatusCard({ text }) {
 }
 
 getdata = async()=>{
+  console.log("here")
   fetch('http://192.168.1.6:8081/api/get_main_data',
   {body:{'last_ad':1}})
 .then((response) => response.json())
 .then((data) => {
-  if (data.type == 'jpeg') {
-    this.setState((state, props) => {
-      return {
-        img_base64:data.media
-      };
-    });
-  }
+  console.log(data)
+  // if (data.type == 'jpeg') {
+  //   this.setState((state, props) => {
+  //     return {
+  //       img_base64:data.media
+  //     };
+  //   });
+  // }
 });
 }
 export function MainScreen() {
   const [cards, setCards] = useState();
-  let add = [{
-    name: "Shahar Baba",
-    job: "Shahar Baba",
-    age: "25",
-    description: "Shahar Baba Shahar Baba Shahar Baba Shahar Baba Shahar ",
-    Rating: "9.9",
-    type: "0"
-  },
-  {
-    companyName: "HIT",
-    jobTitle: "Developer",
-    jobType: "Full-Time",
-    experience: "3",
-    Requirements: "Developer Developer Developer Developer Developer Developer Developer",
-    Rating: "9.9",
-    type: "1"
-  },
-  {
-    name: "Gal Bachar",
-    job: "Gal Bachar",
-    age: "25",
-    description: "Gal Bachar Gal Bachar Gal Bachar Gal Bachar Gal Bachar",
-    Rating: "9.9",
-    type: "0"
-  },
-  {
-    companyName: "HIT",
-    jobTitle: "Developer",
-    jobType: "Full-Time",
-    experience: "3",
-    Requirements: "Developer Developer Developer Developer Developer Developer Developer",
-    Rating: "9.9",
-    type: "1"
-  },
-  {
-    name: "Eden Meshulam",
-    job: "Eden Meshulam",
-    age: "25",
-    description: "Eden Meshulam Eden Meshulam Eden Meshulam Eden Meshulam Eden Meshulam",
-    Rating: "9.9",
-    type: "0"
-  },
-  {
-    companyName: "HIT",
-    jobTitle: "Developer",
-    jobType: "Full-Time",
-    experience: "3",
-    Requirements: "Developer Developer Developer Developer Developer Developer Developer",
-    Rating: "9.9",
-    type: "1"
-  },
-  {
-    name: "Daniel George",
-    job: "Daniel George",
-    age: "26",
-    description: "Daniel George Daniel George Daniel George Daniel George Daniel George",
-    Rating: "7.8",
-    type: "0"
-  }];
+  let add = getdata()
+  // let add = [{
+  //   name: "Shahar Baba",
+  //   job: "Shahar Baba",
+  //   age: "25",
+  //   description: "Shahar Baba Shahar Baba Shahar Baba Shahar Baba Shahar ",
+  //   Rating: "9.9",
+  //   type: "0"
+  // },
+  // {
+  //   companyName: "HIT",
+  //   jobTitle: "Developer",
+  //   jobType: "Full-Time",
+  //   experience: "3",
+  //   Requirements: "Developer Developer Developer Developer Developer Developer Developer",
+  //   Rating: "9.9",
+  //   type: "1"
+  // },
+  // {
+  //   name: "Gal Bachar",
+  //   job: "Gal Bachar",
+  //   age: "25",
+  //   description: "Gal Bachar Gal Bachar Gal Bachar Gal Bachar Gal Bachar",
+  //   Rating: "9.9",
+  //   type: "0"
+  // },
+  // {
+  //   companyName: "HIT",
+  //   jobTitle: "Developer",
+  //   jobType: "Full-Time",
+  //   experience: "3",
+  //   Requirements: "Developer Developer Developer Developer Developer Developer Developer",
+  //   Rating: "9.9",
+  //   type: "1"
+  // },
+  // {
+  //   name: "Eden Meshulam",
+  //   job: "Eden Meshulam",
+  //   age: "25",
+  //   description: "Eden Meshulam Eden Meshulam Eden Meshulam Eden Meshulam Eden Meshulam",
+  //   Rating: "9.9",
+  //   type: "0"
+  // },
+  // {
+  //   companyName: "HIT",
+  //   jobTitle: "Developer",
+  //   jobType: "Full-Time",
+  //   experience: "3",
+  //   Requirements: "Developer Developer Developer Developer Developer Developer Developer",
+  //   Rating: "9.9",
+  //   type: "1"
+  // },
+  // {
+  //   name: "Daniel George",
+  //   job: "Daniel George",
+  //   age: "26",
+  //   description: "Daniel George Daniel George Daniel George Daniel George Daniel George",
+  //   Rating: "7.8",
+  //   type: "0"
+  // }];
 
   useEffect(() => {
     setTimeout(() => {
