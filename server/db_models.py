@@ -1,4 +1,3 @@
-
 from flask_sqlalchemy import SQLAlchemy
 import enum
 db = SQLAlchemy()
@@ -7,9 +6,24 @@ class UserTypes(enum.Enum):
     suplier = 1
     client = 2
 
+    def Parse(userType):
+        #return gender.lower()
+        if userType.lower() == "suplier":
+            return UserTypes.suplier
+        else:
+            return UserTypes.client
+
 class Genders(enum.Enum):
     male = 1
     female = 2
+
+    def Parse(gender):
+        #return gender.lower()
+        if gender.lower() == "male":
+            return Genders.male
+        else:
+            return Genders.female
+
     
 
 class Status(enum.Enum):
@@ -19,7 +33,7 @@ class Status(enum.Enum):
 
 
 class Users(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True,autoincrement=True)
     password = db.Column(db.String(20), nullable=False)
     full_name = db.Column(db.String(20), nullable=False)
     phone_number = db.Column(db.String(11), nullable=False)
