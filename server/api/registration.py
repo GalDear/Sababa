@@ -4,6 +4,7 @@ from db_models import Users,db,Genders,UserTypes
 import json
 import re
 from flask import make_response,jsonify,request
+from datetime import datetime
 
 
 
@@ -15,6 +16,7 @@ def user_registration():
         data = json.loads(request.data)
         print(data)
         try:
+
             if(validateEmail(data['email']) and validatePassword(data['password'])):
                 if Users.query.filter_by(email=data['email']).first() is None:
                     new_user = Users(password=data['password'], full_name=data['full_name'], phone_number=data['phone_number'], email=data['email'],country=data['country'],created_at=datetime.today(),user_type=UserTypes.Parse(data['user_type']),description=data['description'],foundation=data['foundation'],gender=Genders.Parse(data['gender']),skills=data['skills'])
@@ -31,6 +33,7 @@ def user_registration():
             else:
                 response = make_response({'success':False, 'error':"Invalid username or password"})
                 response.status_code = 400
+
         except Exception as e:
             print(f"EXEPTION: {e}")
             response = make_response({'success':False})
