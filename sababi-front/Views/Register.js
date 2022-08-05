@@ -1,6 +1,6 @@
 import React, {useState,setState,useMemo} from "react";
-import { Keyboard,textInput, Alert, ScrollView, Switch, Box, Heading, Text, Center,  FormControl, Button, NativeBaseProvider, VStack, View, HStack } from "native-base";
-import {StyleSheet} from 'react-native';
+import { Keyboard, Alert, ScrollView, Switch, Box, Heading, Text, Center,  FormControl, Button, NativeBaseProvider, VStack, View, HStack } from "native-base";
+import {StyleSheet, TextInput} from 'react-native';
 import Media from '../Componnats/UploadMedia';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -11,7 +11,7 @@ import Input from '../Componnats/Input';
 
 export function Register({useStateFigure}) {
     const [selected, setSelected] = React.useState(0);
-    const [email, setEmail] = useState("");
+
 
     {/* For the switcher that you choose if you are recruier or worker */}
     const [enabled, setEnabled] = React.useState(false)
@@ -34,6 +34,16 @@ export function Register({useStateFigure}) {
         phone: '',
         password: '',
         confirm_password: '',
+        fullName: '', 
+        Image: '',  // ?
+        companyFounding: '', 
+        country: '', 
+        lineOfBusiness: '', 
+        jobTitle: '', 
+        Skills: '', 
+        gender: '', 
+        age: '', 
+        description: '', 
       });
       const [errors, setErrors] = React.useState({});
       const [loading, setLoading] = React.useState(false);
@@ -88,7 +98,13 @@ export function Register({useStateFigure}) {
         setTimeout(() => {
           try {
             setLoading(false);
-            AsyncStorage.setItem('userData', JSON.stringify(inputs));
+            // AsyncStorage.setItem('userData', JSON.stringify(inputs));
+            console.log(inputs) // for test
+            fetch('http://localhost:8081/api/register',
+            {body:inputs})
+            .then((response) => response.json())
+            .then((data) => {
+            console.log(data)});
           } catch (error) {
             Alert.alert('Error', 'Something went wrong');
           }
@@ -242,34 +258,54 @@ export function Register({useStateFigure}) {
             <FormControl alignItems={"center"}>     {/* Worker */}   
             <FormControl>
                 <FormControl.Label>Job Title</FormControl.Label>
-                <Input />
+                <Input 
+                id="jobTitle"
+                onChangeText={text => handleOnchange(text, 'jobTitle')}
+                />
             </FormControl>
             <FormControl>
                 <FormControl.Label>Skills</FormControl.Label>
-                <Input />
+                <Input 
+                id="skills"
+                onChangeText={text => handleOnchange(text, 'skills')}
+                />
                 </FormControl>
             <FormControl>
                 <FormControl.Label>Gender</FormControl.Label>
-                <Input />
+                <Input 
+                id="gender"
+                onChangeText={text => handleOnchange(text, 'gender')}
+                />
             </FormControl> 
             <FormControl>
-                <FormControl.Label>Birthday</FormControl.Label>
-                <Input />
+                <FormControl.Label>Age</FormControl.Label>
+                <Input 
+                id="age"
+                onChangeText={text => handleOnchange(text, 'age')}
+                />
             </FormControl>    
             </FormControl>
             : 
             <FormControl alignItems={"center"}>     {/* Recruiter */} 
             <FormControl>
                 <FormControl.Label>Company Founding</FormControl.Label>
-                <Input />
+                <Input 
+                onChangeText={text => handleOnchange(text, 'companyFounding')}
+                />
             </FormControl> 
             <FormControl>
                 <FormControl.Label>Country</FormControl.Label>
-                <Input />
+                <Input 
+                id="country"
+                onChangeText={text => handleOnchange(text, 'country')}
+                />
             </FormControl> 
             <FormControl>
                 <FormControl.Label>Line Of Business </FormControl.Label>
-                <Input />
+                <Input 
+                id="lineOfBusiness"
+                onChangeText={text => handleOnchange(text, 'lineOfBusiness')}
+                />
             </FormControl> 
             </FormControl>
              }{/* Finished with type of account */} 
@@ -277,9 +313,13 @@ export function Register({useStateFigure}) {
 
             <FormControl>           {/* Description */} 
                 <FormControl.Label >Description</FormControl.Label>
-                <Input 
-                      multiline={true}
-                      numberOfLines={20}
+                <TextInput 
+                id="description"
+                style={styles.descriptionInput}
+                multiline 
+                numberOfLines={10} 
+                maxLength={300}
+                onChangeText={text => handleOnchange(text, 'description')}
                 />
 
             </FormControl> 
@@ -310,4 +350,13 @@ export function Register({useStateFigure}) {
       </NativeBaseProvider>);
   };
 
+
+
+  const styles=StyleSheet.create({
+    descriptionInput:{
+      textAlignVertical:"top",
+      height:200,
+      backgroundColor:"#F3F4FB"
+    }
+  })
 
