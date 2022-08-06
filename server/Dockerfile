@@ -8,6 +8,7 @@ RUN apk --update add openssl ca-certificates py-openssl wget
 RUN apk --update add --virtual build-dependencies libffi-dev openssl-dev build-base \
   && pip install --upgrade pip \
   && pip install -r requirements.txt \
+  && pip install regex \
   && apk del build-dependencies
 
 RUN mkdir server

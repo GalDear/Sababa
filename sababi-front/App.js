@@ -7,6 +7,7 @@ import { Menu } from './Views/Menu';
 import { Notification } from './Views/Notification';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+
 function App() {
 
   const [data, setData] = React.useState('');
@@ -33,7 +34,8 @@ export default App;
 function screenManager(data) {
 
   if (data == 0) {
-    return <MainScreen></MainScreen>
+    return <MainScreen>
+  </MainScreen>
   }
   if (data == 1) {
     return <Chat></Chat>

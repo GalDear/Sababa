@@ -6,10 +6,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import SwipeCards from "react-native-swipe-cards-deck";
 import Toast from 'react-native-root-toast';
-import AntDesign from 'react-native-vector-icons/AntDesign'
-
-
-
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 function StatusCard({ text }) {
   return (
@@ -20,14 +17,12 @@ function StatusCard({ text }) {
 }
 
 function addType(cardData) {
-
   if (cardData.type === "0") {
     return <PersonAdd data={cardData} />
   } else {
     return <JobAdd data={cardData} />
   }
 }
-
 
 export function MainScreen() {
   const [cards, setCards] = useState([]);
@@ -83,6 +78,8 @@ export function MainScreen() {
     let toast = Toast.show("Yup", { backgroundColor: "green", duration: Toast.durations.SHORT });
     return true; // return false if you wish to cancel the action
   }
+
+
   function handleNope(card) {
     console.log(`Nope for ${card.name}`);
     let toast = Toast.show("Nope", { backgroundColor: "red", duration: Toast.durations.SHORT });
@@ -120,9 +117,8 @@ export function MainScreen() {
             <StatusCard text="Loading..." />
           )}
         </Center>
-        <Box position="relative" h={100} w="100%">
-          <Fab position="absolute" size="sm" backgroundColor="white" icon={<Icon color="black" as={<AntDesign name="plus" />} size="sm" />} />
-        </Box>
+          <Fab position="absolute" size="sm" backgroundColor="white" icon={<Icon color="black" as={<AntDesign name="plus" />} size="sm" onPress={() => console.log("HELPPPPPPPPPPPPPPP")}/>}>
+          </Fab>
       </Flex>
  
     </NativeBaseProvider>

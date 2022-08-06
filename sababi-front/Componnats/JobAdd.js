@@ -17,7 +17,7 @@ export function JobAdd({ data }) {
                 <Box>
                     <AspectRatio w="100%" ratio={16 / 9}>
                         <Image source={{
-                            uri: "https://www.holidify.com/images/cmsuploads/compressed/Bangalore_citycover_20190613234056.jpg"
+                            uri:`data:image/jpeg;base64,${data.images.media}`
                         }} alt="image" />
                     </AspectRatio>
                     <Center bg="gray.500" _dark={{
@@ -27,7 +27,7 @@ export function JobAdd({ data }) {
                         fontWeight: "700",
                         fontSize: "xs"
                     }} position="absolute" bottom="0" px="3" py="1.5">
-                        {data.companyName}
+                        {data.name}
                     </Center>
                 </Box>
                 <Stack p="4" space={3}>
@@ -46,7 +46,7 @@ export function JobAdd({ data }) {
                         <Text fontSize="2xs" color="white" _dark={{
                             color: "warmGray.200"
                         }} fontWeight="400">
-                            Job Type:
+                            Status:
                         </Text>
                         {/* ------------------------------------------------------ */}
                         <Text fontSize="xs" _light={{
@@ -54,25 +54,25 @@ export function JobAdd({ data }) {
                         }} _dark={{
                             color: "violet.400"
                         }} fontWeight="500" ml="2" mt="-1">
-                            {data.jobType}
+                            {data.status}
                         </Text>
                         {/* ------------------------------------------------------ */}
                         <Text fontSize="2xs" color="white" _dark={{
                             color: "warmGray.200"
                         }} fontWeight="400">
-                            Experience In Years:
+                            Estimated time:
                         </Text>
                         {/* ------------------------------------------------------ */}
                         <Text ml="2" color="white" _dark={{
                             color: "warmGray.200"
                         }} fontWeight="400">
-                            {data.experience}
+                            {data.estimated_time}
                         </Text>
                         {/* ------------------------------------------------------ */}
                         <Text fontSize="2xs" color="white" _dark={{
                             color: "warmGray.200"
                         }} >
-                            Requirements:
+                            Description:
                         </Text>
                     </Stack>
                     {/* ------------------------------------------------------ */}
@@ -83,7 +83,7 @@ export function JobAdd({ data }) {
                     <Text fontSize="2xs" color="white" _dark={{
                         color: "warmGray.200"
                     }} fontWeight="400">
-                        Rating:
+                        Price:
                     </Text>
                     {/* ------------------------------------------------------ */}
                     <HStack alignItems="center" space={1} justifyContent="space-between">
@@ -91,7 +91,7 @@ export function JobAdd({ data }) {
                             <Text ml="2" color="white" _dark={{
                                 color: "warmGray.200"
                             }} fontWeight="400">
-                                {data.Rating}
+                                {data.price}
                             </Text>
                         </HStack>
                     </HStack>
