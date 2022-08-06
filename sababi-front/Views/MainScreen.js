@@ -32,6 +32,7 @@ export function MainScreen() {
   const [cards, setCards] = useState([]);
   const [add, setAds] = useState([]);
   const [last_ad, setLastAd] = useState(0);
+  const [requesting, setRequest] = useState(false)
 
   const getdata =  (async()=>{
     console.log("Requesting")
@@ -54,22 +55,27 @@ export function MainScreen() {
   useEffect(() => {
     if (add.length > 0) {
         const timeout= setTimeout(() => {
+          setRequest(false)
           console.log("Got data from server")
           setCards(add)
           console.log("Nothing changed")
         }, 6000);
-        // return () => clearTimeout(timeout);
+        return () => clearTimeout(timeout);
       }
       else{
         const interval= setInterval(() => {
-        // setCards([])
-        console.log("NO DATA REQUESTING FROM SERVER")
-        Promise.all([getdata()])
+        
+        if (!requesting) {
+          console.log("NO DATA REQUESTING FROM SERVER")
+          Promise.all([getdata()])
+          setRequest(true)
+        }
+        
       }, 10000);
       return () => clearInterval(interval);
       }
     
-  }, [cards,last_ad,add]);
+  }, [cards,last_ad,add,requesting]);
 
   function handleYup(card) {
     console.log(`Yup for ${card.name}`);
