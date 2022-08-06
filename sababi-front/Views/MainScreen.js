@@ -1,11 +1,15 @@
 import { PersonAdd } from '../Componnats/PersonAdd';
 import { JobAdd } from '../Componnats/JobAdd';
-import { NativeBaseProvider, Center, Box, Container, HStack, Heading, NBBox, Flex, Divider, Button, useToast } from 'native-base';
+import { NativeBaseProvider, Center, Box, Container, HStack, Heading, NBBox, Flex, Divider, Button, useToast,Fab,Icon } from 'native-base';
 import { AddClass } from '../Model/AddClass'
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import SwipeCards from "react-native-swipe-cards-deck";
 import Toast from 'react-native-root-toast';
+import AntDesign from 'react-native-vector-icons/AntDesign'
+
+
+
 
 function StatusCard({ text }) {
   return (
@@ -15,97 +19,64 @@ function StatusCard({ text }) {
   );
 }
 
+function addType(cardData) {
+
+  if (cardData.type === "0") {
+    return <PersonAdd data={cardData} />
+  } else {
+    return <JobAdd data={cardData} />
+  }
+}
+
+
 export function MainScreen() {
-  const [cards, setCards] = useState();
-  let add = [{
-    name: "Shahar Baba",
-    job: "Shahar Baba",
-    age: "25",
-    description: "Shahar Baba Shahar Baba Shahar Baba Shahar Baba Shahar ",
-    Rating: "9.9",
-    type: "0"
-  },
-  {
-    companyName: "HIT",
-    jobTitle: "Developer",
-    jobType: "Full-Time",
-    experience: "3",
-    Requirements: "Developer Developer Developer Developer Developer Developer Developer",
-    Rating: "9.9",
-    type: "1"
-  },
-  {
-    name: "Gal Bachar",
-    job: "Gal Bachar",
-    age: "25",
-    description: "Gal Bachar Gal Bachar Gal Bachar Gal Bachar Gal Bachar",
-    Rating: "9.9",
-    type: "0"
-  },
-  {
-    companyName: "HIT",
-    jobTitle: "Developer",
-    jobType: "Full-Time",
-    experience: "3",
-    Requirements: "Developer Developer Developer Developer Developer Developer Developer",
-    Rating: "9.9",
-    type: "1"
-  },
-  {
-    name: "Eden Meshulam",
-    job: "Eden Meshulam",
-    age: "25",
-    description: "Eden Meshulam Eden Meshulam Eden Meshulam Eden Meshulam Eden Meshulam",
-    Rating: "9.9",
-    type: "0"
-  },
-  {
-    companyName: "HIT",
-    jobTitle: "Developer",
-    jobType: "Full-Time",
-    experience: "3",
-    Requirements: "Developer Developer Developer Developer Developer Developer Developer",
-    Rating: "9.9",
-    type: "1"
-  },
-  {
-    name: "Daniel George",
-    job: "Daniel George",
-    age: "26",
-    description: "Daniel George Daniel George Daniel George Daniel George Daniel George",
-    Rating: "7.8",
-    type: "0"
-  }];
+  const [cards, setCards] = useState([]);
+  const [add, setAds] = useState([]);
+  const [last_ad, setLastAd] = useState(0);
+  const [requesting, setRequest] = useState(false)
+
+  const getdata = (async () => {
+    console.log("Requesting")
+    await fetch('http://192.168.1.198:8081/api/get_main_data',
+      {
+        method: 'POST',
+        body: JSON.stringify({ 'last_ad': last_ad })
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        setLastAd(data['next_ad'])
+        setAds(data['ads'])
+        console.log("GAL HAGEVER")
+      })
+      .catch((error) => {
+        console.log("ERORRRRRR", error)
+      });
+  })
 
   useEffect(() => {
-    setTimeout(() => {
-      setCards(
-        [
-          {
-            name: add[0].name, job: add[0].job, age: add[0].age, description: add[0].description, Rating: add[0].Rating, type: add[0].type
-          },
-          {
-            companyName: add[1].companyName, jobTitle: add[1].jobTitle, jobType: add[1].jobType, experience: add[1].experience, Requirements: add[1].Requirements, Rating: add[1].Rating, type: add[1].type
-          },
-          {
-            name: add[2].name, job: add[2].job, age: add[2].age, description: add[2].description, Rating: add[2].Rating, type: add[2].type
-          },
-          {
-            companyName: add[3].companyName, jobTitle: add[3].jobTitle, jobType: add[3].jobType, experience: add[3].experience, Requirements: add[3].Requirements, Rating: add[3].Rating, type: add[3].type
-          },
-          {
-            name: add[4].name, job: add[4].job, age: add[4].age, description: add[4].description, Rating: add[5].Rating, type: add[4].type
-          },
-          {
-            companyName: add[3].companyName, jobTitle: add[3].jobTitle, jobType: add[3].jobType, experience: add[3].experience, Requirements: add[3].Requirements, Rating: add[3].Rating, type: add[5].type
-          },
-          {
-            name: add[6].name, job: add[6].job, age: add[6].age, description: add[6].description, Rating: add[6].Rating, type: add[6].type
-          }
-        ]
-      );
-    }, 3000);
-  }, []);
+    if (add.length > 0) {
+      const timeout = setTimeout(() => {
+        setRequest(false)
+        console.log("Got data from server")
+        setCards(add)
+        console.log("Nothing changed")
+      }, 6000);
+      return () => clearTimeout(timeout);
+    }
+    else {
+      const interval = setInterval(() => {
+
+        if (!requesting) {
+          console.log("NO DATA REQUESTING FROM SERVER")
+          Promise.all([getdata()])
+          setRequest(true)
+        }
+
+      }, 10000);
+      return () => clearInterval(interval);
+    }
+
+  }, [cards, last_ad, add, requesting]);
 
   function handleYup(card) {
     console.log(`Yup for ${card.name}`);
@@ -124,19 +95,18 @@ export function MainScreen() {
 
 
   return (
-    <NativeBaseProvider>
+    <NativeBaseProvider >
 
-      <Center marginTop="10%">
-        <Heading>Sababi</Heading>
+      <Center marginTop="10%" >
+        <Heading color="white">Sababi</Heading>
       </Center>
-
-      <Flex direction="column" mb="2.5" mt="1.5" alignItems="center" marginTop="5%">
+      <Flex direction="column" mb="2.5" mt="1.5" alignItems="center" marginTop="15%">
         <Center>
           {cards ? (
             <SwipeCards cards={cards}
               renderCard={(cardData) => addType(cardData)}
               keyExtractor={(cardData) => String(cardData.text)}
-              renderNoMoreCards={() => <StatusCard text="No more cards..." />}
+              renderNoMoreCards={() => <StatusCard text="No more cards..!." />}
               actions={{
                 nope: { onAction: handleNope, show: false },
                 yup: { onAction: handleYup, show: false },
@@ -144,14 +114,17 @@ export function MainScreen() {
 
               }}
               hasMaybeAction={true}
-              loop={true}
+              loop={false}
             />
           ) : (
             <StatusCard text="Loading..." />
           )}
         </Center>
+        <Box position="relative" h={100} w="100%">
+          <Fab position="absolute" size="sm" backgroundColor="white" icon={<Icon color="black" as={<AntDesign name="plus" />} size="sm" />} />
+        </Box>
       </Flex>
-
+ 
     </NativeBaseProvider>
 
   );
@@ -175,11 +148,3 @@ const styles = StyleSheet.create({
   },
 });
 
-function addType(cardData) {
-  console.log(cardData)
-  if (cardData.type === "0") {
-    return <PersonAdd data={cardData} />
-  } else {
-    return <JobAdd data={cardData} />
-  }
-}

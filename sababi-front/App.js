@@ -15,13 +15,13 @@ function App() {
   }
 
   return (
-    <SafeAreaView>
-      <View style={{ height: '95%' }}>{
+    <SafeAreaView style={{backgroundColor:"black"}}>
+      <View style={{ height: '91%' }}>{
         screenManager(data)
       }
       </View>
       <View style={{
-        height: '5%'
+        height: '9%'
       }}><Footer useStateFigure={useStateFigure}></Footer></View>
     </SafeAreaView>
   );
