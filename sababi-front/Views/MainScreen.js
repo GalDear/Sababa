@@ -15,120 +15,69 @@ function StatusCard({ text }) {
   );
 }
 
-getdata = async()=>{
-  console.log("here")
-  fetch('http://192.168.1.6:8081/api/get_main_data',
-  {body:{'last_ad':1}})
-.then((response) => response.json())
-.then((data) => {
-  console.log(data)
-  // if (data.type == 'jpeg') {
-  //   this.setState((state, props) => {
-  //     return {
-  //       img_base64:data.media
-  //     };
-  //   });
-  // }
-});
+function addType(cardData) {
+  
+  if (cardData.type === "0") {
+    return <PersonAdd data={cardData} />
+  } else {
+    return <JobAdd data={cardData} />
+  }
 }
+
+  
+
+
+
 export function MainScreen() {
-  const [cards, setCards] = useState();
-  let add = getdata()
-  // let add = [{
-  //   name: "Shahar Baba",
-  //   job: "Shahar Baba",
-  //   age: "25",
-  //   description: "Shahar Baba Shahar Baba Shahar Baba Shahar Baba Shahar ",
-  //   Rating: "9.9",
-  //   type: "0"
-  // },
-  // {
-  //   companyName: "HIT",
-  //   jobTitle: "Developer",
-  //   jobType: "Full-Time",
-  //   experience: "3",
-  //   Requirements: "Developer Developer Developer Developer Developer Developer Developer",
-  //   Rating: "9.9",
-  //   type: "1"
-  // },
-  // {
-  //   name: "Gal Bachar",
-  //   job: "Gal Bachar",
-  //   age: "25",
-  //   description: "Gal Bachar Gal Bachar Gal Bachar Gal Bachar Gal Bachar",
-  //   Rating: "9.9",
-  //   type: "0"
-  // },
-  // {
-  //   companyName: "HIT",
-  //   jobTitle: "Developer",
-  //   jobType: "Full-Time",
-  //   experience: "3",
-  //   Requirements: "Developer Developer Developer Developer Developer Developer Developer",
-  //   Rating: "9.9",
-  //   type: "1"
-  // },
-  // {
-  //   name: "Eden Meshulam",
-  //   job: "Eden Meshulam",
-  //   age: "25",
-  //   description: "Eden Meshulam Eden Meshulam Eden Meshulam Eden Meshulam Eden Meshulam",
-  //   Rating: "9.9",
-  //   type: "0"
-  // },
-  // {
-  //   companyName: "HIT",
-  //   jobTitle: "Developer",
-  //   jobType: "Full-Time",
-  //   experience: "3",
-  //   Requirements: "Developer Developer Developer Developer Developer Developer Developer",
-  //   Rating: "9.9",
-  //   type: "1"
-  // },
-  // {
-  //   name: "Daniel George",
-  //   job: "Daniel George",
-  //   age: "26",
-  //   description: "Daniel George Daniel George Daniel George Daniel George Daniel George",
-  //   Rating: "7.8",
-  //   type: "0"
-  // }];
+  const [cards, setCards] = useState([]);
+  const [add, setAds] = useState([]);
+  const [last_ad, setLastAd] = useState(0);
+
+  const getdata =  (async()=>{
+    console.log("Requesting")
+    await fetch('http://192.168.1.6:8081/api/get_main_data',
+    {
+      method: 'POST',
+      body:JSON.stringify({'last_ad':last_ad})
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      setLastAd(data['next_ad'])
+      setAds(data['ads'])
+    })
+    .catch((error)=>{
+      console.log("ERORRRRRR",error)
+    });
+  })
+
 
   useEffect(() => {
-    setTimeout(() => {
-      setCards(
-        [
-          {
-            name: add[0].name, job: add[0].job, age: add[0].age, description: add[0].description, Rating: add[0].Rating, type: add[0].type
-          },
-          {
-            companyName: add[1].companyName, jobTitle: add[1].jobTitle, jobType: add[1].jobType, experience: add[1].experience, Requirements: add[1].Requirements, Rating: add[1].Rating, type: add[1].type
-          },
-          {
-            name: add[2].name, job: add[2].job, age: add[2].age, description: add[2].description, Rating: add[2].Rating, type: add[2].type
-          },
-          {
-            companyName: add[3].companyName, jobTitle: add[3].jobTitle, jobType: add[3].jobType, experience: add[3].experience, Requirements: add[3].Requirements, Rating: add[3].Rating, type: add[3].type
-          },
-          {
-            name: add[4].name, job: add[4].job, age: add[4].age, description: add[4].description, Rating: add[5].Rating, type: add[4].type
-          },
-          {
-            companyName: add[3].companyName, jobTitle: add[3].jobTitle, jobType: add[3].jobType, experience: add[3].experience, Requirements: add[3].Requirements, Rating: add[3].Rating, type: add[5].type
-          },
-          {
-            name: add[6].name, job: add[6].job, age: add[6].age, description: add[6].description, Rating: add[6].Rating, type: add[6].type
-          }
-        ]
-      );
-    }, 3000);
-  }, []);
+    if (add.length > 0) {
+        const timeout= setTimeout(() => {
+          console.log("Got data from server")
+          setCards(add)
+          console.log("Nothing changed")
+        }, 6000);
+        // return () => clearTimeout(timeout);
+      }
+      else{
+        const interval= setInterval(() => {
+        // setCards([])
+        console.log("NO DATA REQUESTING FROM SERVER")
+        Promise.all([getdata()])
+      }, 10000);
+      return () => clearInterval(interval);
+      }
+    
+  }, [cards,last_ad,add]);
 
   function handleYup(card) {
     console.log(`Yup for ${card.name}`);
     let toast = Toast.show("Yup", { backgroundColor: "green", duration: Toast.durations.SHORT });
     return true; // return false if you wish to cancel the action
   }
+
+
   function handleNope(card) {
     console.log(`Nope for ${card.name}`);
     let toast = Toast.show("Nope", { backgroundColor: "red", duration: Toast.durations.SHORT });
@@ -146,7 +95,6 @@ export function MainScreen() {
       <Center marginTop="10%">
         <Heading>Sababi</Heading>
       </Center>
-
       <Flex direction="column" mb="2.5" mt="1.5" alignItems="center" marginTop="5%">
         <Center>
           {cards ? (
@@ -192,11 +140,3 @@ const styles = StyleSheet.create({
   },
 });
 
-function addType(cardData) {
-  console.log(cardData)
-  if (cardData.type === "0") {
-    return <PersonAdd data={cardData} />
-  } else {
-    return <JobAdd data={cardData} />
-  }
-}

@@ -28,5 +28,5 @@ get_user_image = Blueprint("get_user_image", __name__)
 get_user_image.route("/api/get_user_image", methods=['GET'])(user_image)
 
 get_main_data = Blueprint("get_main_data", __name__)
-get_main_data.route("/api/get_main_data", methods=['GET'])(mainScreen)
+get_main_data.route("/api/get_main_data", methods=['GET','POST'])(mainScreen)
 
