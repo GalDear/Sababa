@@ -1,6 +1,6 @@
 import React, {useState,setState,useMemo} from "react";
-import { Keyboard, Alert, ScrollView, Switch, Box, Heading, Text, Center,  FormControl, Button, NativeBaseProvider, VStack, View, HStack } from "native-base";
-import {StyleSheet, TextInput} from 'react-native';
+import { Keyboard, ScrollView, Switch, Box, Heading, Text, Center,  FormControl, Button, NativeBaseProvider, VStack, View, HStack } from "native-base";
+import {StyleSheet, TextInput,Alert} from 'react-native';
 import Media from '../Componnats/UploadMedia';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -43,12 +43,13 @@ export function Register({useStateFigure}) {
         Skills: '', 
         gender: '', 
         age: '', 
-        description: '', 
+        description: '',
+        type: '',
       });
       const [errors, setErrors] = React.useState({});
       const [loading, setLoading] = React.useState(false);
     
-      const validate = () => {
+      const validate = async() => {
         let isValid = true;
         
         if (!inputs.email) {
@@ -84,31 +85,33 @@ export function Register({useStateFigure}) {
           handleError('Incorrect confirm password', 'confirm_password');
           isValid = false;
         }
-        
-    
+        inputs.type =  ()=>{ if (enabled) {return 1} else {return 0}}
+       
         if (isValid) {
           useStateFigure(0);
           setSelected(0);
-          register();
+          await register();
         }
       };
     
-      const register = () => {
-        setLoading(true);
-        setTimeout(() => {
-          try {
-            setLoading(false);
-            // AsyncStorage.setItem('userData', JSON.stringify(inputs));
-            console.log(inputs) // for test
-            fetch('http://localhost:8081/api/register',
-            {body:inputs})
-            .then((response) => response.json())
-            .then((data) => {
-            console.log(data)});
-          } catch (error) {
-            Alert.alert('Error', 'Something went wrong');
-          }
-        }, 3000);
+      const register = async() => {
+        try {
+          // setLoading(false);
+          // AsyncStorage.setItem('userData', JSON.stringify(inputs));
+          console.log(inputs) // for test
+          await fetch('http://192.168.1.6:8081/api/registration',
+          {
+            method: 'POST',
+            body:JSON.stringify(inputs)
+          })
+          .then((response) => response.json())
+          .then((data) => {
+          console.log(data)});
+        } catch (error) {
+          console.log(error)
+          Alert.alert('Error', 'Something went wrong');
+        }
+
       };
     
       const handleOnchange = (text, input) => {
