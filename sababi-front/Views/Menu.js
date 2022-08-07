@@ -4,6 +4,7 @@ import { View, Text, Button } from 'react-native';
 import { Settings } from './Settings';
 import { ExtraSettings } from './ExtraSettings';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { setStatusBarBackgroundColor } from 'expo-status-bar';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,5 +18,6 @@ export function Menu() {
     </NavigationContainer>
   );
 }
+
 
 

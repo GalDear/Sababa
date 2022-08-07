@@ -7,6 +7,9 @@ import { StyleSheet, Text, View } from "react-native";
 import SwipeCards from "react-native-swipe-cards-deck";
 import Toast from 'react-native-root-toast';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { addCreate } from './AddCreate';
 
 function StatusCard({ text }) {
   return (
@@ -24,11 +27,13 @@ function addType(cardData) {
   }
 }
 
-export function MainScreen() {
+export function MainScreen({navigation}) {
   const [cards, setCards] = useState([]);
   const [add, setAds] = useState([]);
   const [last_ad, setLastAd] = useState(0);
   const [requesting, setRequest] = useState(false)
+  const Stack = createNativeStackNavigator();
+
 
   const getdata = (async () => {
     console.log("Requesting")
@@ -79,7 +84,6 @@ export function MainScreen() {
     return true; // return false if you wish to cancel the action
   }
 
-
   function handleNope(card) {
     console.log(`Nope for ${card.name}`);
     let toast = Toast.show("Nope", { backgroundColor: "red", duration: Toast.durations.SHORT });
@@ -93,12 +97,8 @@ export function MainScreen() {
 
   return (
     <NativeBaseProvider >
-
-      <Center marginTop="10%" >
-        <Heading color="white">Sababi</Heading>
-      </Center>
-      <Flex direction="column" mb="2.5" mt="1.5" alignItems="center" marginTop="15%">
-        <Center>
+      <Flex direction="column" mb="2.5" alignItems="center" backgroundColor="black">
+        <Center marginTop="10%">
           {cards ? (
             <SwipeCards cards={cards}
               renderCard={(cardData) => addType(cardData)}
@@ -112,16 +112,21 @@ export function MainScreen() {
               }}
               hasMaybeAction={true}
               loop={false}
+              
             />
           ) : (
             <StatusCard text="Loading..." />
           )}
         </Center>
-          <Fab position="absolute" size="sm" backgroundColor="white" icon={<Icon color="black" as={<AntDesign name="plus" />} size="sm" onPress={() => console.log("HELPPPPPPPPPPPPPPP")}/>}>
+        <Box position="relative" h={100} w="100%" >
+          <Fab position="absolute" size="sm" backgroundColor="white" icon={<Icon color="black" as={<AntDesign name="plus" />} size="sm" onPress={() => navigation.navigate('New Add')}/>}>
           </Fab>
+        </Box>
       </Flex>
- 
+
     </NativeBaseProvider>
+
+    
 
   );
 };

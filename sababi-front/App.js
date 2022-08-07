@@ -6,7 +6,7 @@ import { Footer } from './Componnats/Footer';
 import { Menu } from './Views/Menu';
 import { Notification } from './Views/Notification';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import { MainNavigation } from './Views/MainNavigation';
 
 function App() {
 
@@ -21,9 +21,9 @@ function App() {
         screenManager(data)
       }
       </View>
-      <View style={{
-        height: '9%'
-      }}><Footer useStateFigure={useStateFigure}></Footer></View>
+      <View style={{height: '9%'}}>
+        <Footer useStateFigure={useStateFigure}></Footer>
+      </View>
     </SafeAreaView>
   );
 }
@@ -34,8 +34,7 @@ export default App;
 function screenManager(data) {
 
   if (data == 0) {
-    return <MainScreen>
-  </MainScreen>
+    return <MainNavigation></MainNavigation>
   }
   if (data == 1) {
     return <Chat></Chat>
@@ -45,6 +44,9 @@ function screenManager(data) {
   }
   if (data == 3) {
     return <Menu></Menu>
+  }
+  if(data == 6) {
+    return <addCreate></addCreate>
   }
   else {
     return null
