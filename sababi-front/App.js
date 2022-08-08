@@ -45,9 +45,6 @@ function screenManager(data) {
   if (data == 3) {
     return <Menu></Menu>
   }
-  if(data == 6) {
-    return <addCreate></addCreate>
-  }
   else {
     return null
   }
