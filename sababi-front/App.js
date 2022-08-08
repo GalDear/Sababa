@@ -7,6 +7,7 @@ import { Menu } from './Views/Menu';
 import { Notification } from './Views/Notification';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MainNavigation } from './Views/MainNavigation';
+import { MenuNavigation } from './Views/MenuNavigation';
 
 function App() {
 
@@ -43,7 +44,7 @@ function screenManager(data) {
     return <Notification></Notification>
   }
   if (data == 3) {
-    return <Menu></Menu>
+    return <MenuNavigation></MenuNavigation>
   }
   else {
     return null

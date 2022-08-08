@@ -9,7 +9,6 @@ import Toast from 'react-native-root-toast';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { addCreate } from './AddCreate';
 
 function StatusCard({ text }) {
   return (
