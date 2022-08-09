@@ -1,13 +1,15 @@
 import * as React from 'react';
 import { View, Text, Button } from 'react-native';
 import { MainScreen } from './Views/MainScreen';
-import { Chat } from './Views/Chat';
+import { ChatScreen } from './Views/Chat';
+import { MessagesScreen } from './Views/Messages';
 import {Footer} from './Componnats/Footer';
 import { Menu } from './Views/Menu';
 import { Login } from './Views/Login';
 import { Register } from './Views/Register';
 import { Notification } from './Views/Notification';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ChatNavigation } from './Views/ChatNavigation'
 
 function App() {
   
@@ -68,7 +70,7 @@ function screenManager(data){
       return <MainScreen></MainScreen>
     }
     if(data == 2){
-      return <Chat></Chat>
+       return <ChatNavigation></ChatNavigation>
     }
     if(data == 3){
       return <Notification></Notification>
