@@ -19,7 +19,7 @@ def user_registration():
 
             if validatePassword(data['password']):
                 if validateEmail(data['email']):
-                    new_user = Users(password=data['password'], full_name=data['fullname'], phone_number=data['phone'], email=data['email'],country=data['country'],user_type=UserTypes.parse(data['user_type']),age=data['age'],description=data['description'],foundation=data['foundation'],gender=Genders.parse(data['gender']),skills=data['skills'])
+                    new_user = Users(password=data['password'], full_name=data['fullname'], phone_number=data['phone'], email=data['email'].lower(),country=data['country'],user_type=data['type'],age=data['age'],description=data['description'],foundation=data['companyFounding'],gender=data['gender'],skills=data['skills'],created_at=datetime.today())
                     print(new_user)
                     db.session.add(new_user)
                     db.session.commit()

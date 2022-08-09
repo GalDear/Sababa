@@ -10,7 +10,7 @@ import Input from '../Componnats/Input';
 
 
 export function Register({useStateFigure}) {
-    const [selected, setSelected] = React.useState(0);
+    // const [selected, setSelected] = React.useState(0);
 
 
     {/* For the switcher that you choose if you are recruier or worker */}
@@ -34,13 +34,12 @@ export function Register({useStateFigure}) {
         phone: '',
         password: '',
         confirm_password: '',
-        fullName: '', 
         Image: '',  // ?
         companyFounding: '', 
         country: '', 
         lineOfBusiness: '', 
         jobTitle: '', 
-        Skills: '', 
+        skills: '', 
         gender: '', 
         age: '', 
         description: '',
@@ -48,6 +47,7 @@ export function Register({useStateFigure}) {
       });
       const [errors, setErrors] = React.useState({});
       const [loading, setLoading] = React.useState(false);
+      
     
       const validate = async() => {
         let isValid = true;
@@ -85,7 +85,7 @@ export function Register({useStateFigure}) {
           handleError('Incorrect confirm password', 'confirm_password');
           isValid = false;
         }
-        inputs.type =  ()=>{ if (enabled) {return 1} else {return 0}}
+        if (enabled) {inputs.type= 1} else {inputs.type= 0}
        
         if (isValid) {
           useStateFigure(0);
@@ -121,42 +121,6 @@ export function Register({useStateFigure}) {
         setErrors(prevState => ({...prevState, [input]: error}));
       };
 
-
-
-
-
-
-
-
-
-    //   const handleInputChange = (e) => {
-              
-    //       const {id , value} = e;
-    //         console.log(id,value);
-    //       if(id === "fulltName"){
-    //           setFirstName(value);
-    //       }
-    //       if(id === "email"){
-    //         console.log(value);
-    //           setEmail(value);
-    //       }
-    //       if(id === "password"){
-    //           setPassword(value);
-    //       }
-    //       if(id === "confirmPassword"){
-    //           setConfirmPassword(value);
-    //       }
-    //       if(id === "phoneNumber"){
-    //           setPhoneNumber(value);
-    //       }
-    //       if(id === "userType"){
-    //           setUserType(value);
-    //       }
-    //       if(id === "description"){
-    //           setDescription(value);
-    //       }
-      
-    //   }
 
 
     return (<NativeBaseProvider>
