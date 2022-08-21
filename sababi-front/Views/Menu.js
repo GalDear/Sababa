@@ -31,13 +31,16 @@ export function Menu({navigation}) {
                 mt="2" 
                 colorScheme="indigo"
                 title="Edit information"
-                onPress={validate}>
+                onPress={() => navigation.navigate('EditInfo')}
+                >
                 Edit information
               </Button>
               <Button
                 mt="2" 
                 colorScheme="indigo"
-                title="Settings">
+                title="Settings"
+                onPress={() => navigation.navigate('Settings')}
+                >
                 Settings
               </Button>
               <Button

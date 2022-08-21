@@ -1,8 +1,18 @@
 import * as React from 'react';
 import { View, Text, Button,Heading,ScrollView,NativeBaseProvider,FormControl,VStack,Box,Center,Input } from 'native-base';
 import {StyleSheet, TextInput} from 'react-native';
+import { AddClass } from '../Model/AddClass';
 
-export function AddCreate({navigation}) {
+export function EditInfo({navigation}) {
+
+  //temp data need to handle
+  let data = new AddClass;
+  data.age = 26;
+  data.description = "temp temp temp temp tmep ";
+  data.job = "temp";
+  data.name = "temp temp";
+  data.rating = "22"
+
 
   const [loading, setLoading] = React.useState(false);
   const [errors, setErrors] = React.useState({});
@@ -86,6 +96,7 @@ export function AddCreate({navigation}) {
                 <Input
                 style={styles.InputStyle}
                 onChangeText={text => handleOnchange(text, 'JobTitle')}
+                placeholder={data.name}
                 />
             </FormControl>
             <FormControl>
