@@ -145,6 +145,11 @@ web-build/
 # macOS
 .DS_Store
 
+ad_*.jpeg
+user_*.jpeg
+message_*.jpeg
+*.mp4
+
 
 ad_*.jpeg
 *.mp4
