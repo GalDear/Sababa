@@ -8,6 +8,8 @@ import { Login } from './Views/Login';
 import { Register } from './Views/Register';
 import { Notification } from './Views/Notification';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { MainNavigation } from './Views/MainNavigation';
+import { MenuNavigation } from './Views/MenuNavigation';
 import { ChatNavigation } from './Views/ChatNavigation'
 
 function App() {
@@ -44,14 +46,14 @@ if(data == 5){
 }
 else{
   return (
-    <SafeAreaView>
-      <View style={{ height: '95%' }}>{
+    <SafeAreaView style={{backgroundColor:"black"}}>
+      <View style={{ height: '91%' }}>{
         screenManager(data)
       }
       </View>
-      <View style={{
-        height: '5%'
-      }}><Footer useStateFigure={useStateFigure}></Footer></View>
+      <View style={{height: '9%'}}>
+        <Footer useStateFigure={useStateFigure}></Footer>
+      </View>
     </SafeAreaView>
   );
 }
@@ -63,7 +65,7 @@ export default App;
 function screenManager(data) {
 
   if (data == 1) {
-    return <MainScreen></MainScreen>
+    return <MainNavigation></MainNavigation>
   }
   if (data == 2) {
     return <ChatScreen></ChatScreen>
@@ -72,7 +74,7 @@ function screenManager(data) {
     return <Notification></Notification>
   }
   if (data == 4) {
-    return <Menu></Menu>
+    return <MenuNavigation></MenuNavigation>
   }
   else {
     return null

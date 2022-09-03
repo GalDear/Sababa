@@ -1,21 +1,10 @@
-import { PersonAdd } from "../Componnats/PersonAdd";
-import { JobAdd } from "../Componnats/JobAdd";
-import {
-  NativeBaseProvider,
-  Center,
-  Box,
-  Container,
-  HStack,
-  Heading,
-  NBBox,
-  Flex,
-  Divider,
-  Button,
-  useToast,
-} from "native-base";
-import { AddClass } from "../Model/AddClass";
-import React, { useEffect, useState } from "react";
+import { PersonAdd } from '../Componnats/PersonAdd';
+import { JobAdd } from '../Componnats/JobAdd';
+import { NativeBaseProvider, Center, Box, Container, HStack, Heading, NBBox, Flex, Divider, Button, useToast,Fab,Icon } from 'native-base';
 import { StyleSheet, Text, View } from "react-native";
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React, { useEffect, useState } from "react";
 import SwipeCards from "react-native-swipe-cards-deck";
 import Toast from "react-native-root-toast";
 
@@ -98,24 +87,15 @@ export function MainScreen() {
   }
 
   return (
-    <NativeBaseProvider>
-      <Center marginTop="10%">
-        <Heading>Sababi</Heading>
-      </Center>
-      <Flex
-        direction="column"
-        mb="2.5"
-        mt="1.5"
-        alignItems="center"
-        marginTop="5%"
-      >
-        <Center>
+    <NativeBaseProvider >
+      <Flex direction="column" mb="2.5" alignItems="center" backgroundColor="black">
+        <Center marginTop="10%">
           {cards ? (
             <SwipeCards
               cards={cards}
               renderCard={(cardData) => addType(cardData)}
               keyExtractor={(cardData) => String(cardData.text)}
-              renderNoMoreCards={() => <StatusCard text="No more cards..." />}
+              renderNoMoreCards={() => <StatusCard text="No more cards..!." />}
               actions={{
                 nope: { onAction: handleNope, show: false },
                 yup: { onAction: handleYup, show: false },
@@ -123,11 +103,16 @@ export function MainScreen() {
               }}
               hasMaybeAction={true}
               loop={false}
+              
             />
           ) : (
             <StatusCard text="Loading..." />
           )}
         </Center>
+        <Box position="relative" h={100} w="100%" >
+          <Fab position="absolute" size="sm" backgroundColor="white" icon={<Icon color="black" as={<AntDesign name="plus" />} size="sm" onPress={() => navigation.navigate('New Add')}/>}>
+          </Fab>
+        </Box>
       </Flex>
     </NativeBaseProvider>
   );

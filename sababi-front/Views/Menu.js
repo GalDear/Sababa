@@ -1,25 +1,58 @@
-import { NavigationContainer } from '@react-navigation/native';
 import * as React from 'react';
-import { View, Text, Button } from 'react-native';
-import { Settings } from './Settings';
-import { ExtraSettings } from './ExtraSettings';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Box, Center, VStack, NativeBaseProvider, ScrollView,Button } from 'native-base';
+import { PersonAdd } from '../Componnats/PersonAdd';
+import { AddClass } from '../Model/AddClass';
 
 const Stack = createNativeStackNavigator();
 
-export function Menu() {
+export function Menu({navigation}) {
+
+  let addClass = new AddClass;
+  addClass.age = 26;
+  addClass.description = "temp temp temp temp tmep ";
+  addClass.job = "temp";
+  addClass.name = "temp temp";
+  addClass.rating = "22"
+
+  const validate = () => {
+    console.log("CLIKED!!")
+  };
+
   return (
-    <NavigationContainer>
-      <View style={{
-        height: '95%'
-      }}>
-        <Stack.Navigator style={{ height: "95%" }}>
-          <Stack.Screen name="Settings" component={Settings} />
-          <Stack.Screen name="ExtraSettings" component={ExtraSettings} />
-        </Stack.Navigator>
-      </View>
-    </NavigationContainer>
+    <NativeBaseProvider alignItems="center">
+      <ScrollView backgroundColor="black">
+        <Center w="100%">
+        <Box safeArea p="2" w="90%" maxW="290">
+          <VStack space={3} mt="5">
+              <PersonAdd data={addClass}>
+              </PersonAdd>
+              <Button
+                mt="2" 
+                colorScheme="indigo"
+                title="Edit information"
+                onPress={() => navigation.navigate('EditInfo')}
+                >
+                Edit information
+              </Button>
+              <Button
+                mt="2" 
+                colorScheme="indigo"
+                title="Settings"
+                onPress={() => navigation.navigate('Settings')}
+                >
+                Settings
+              </Button>
+              <Button
+                mt="2" 
+                colorScheme="red"
+                title="Log Out">
+                Log out
+              </Button>
+          </VStack>
+          </Box>
+        </Center>
+      </ScrollView>
+    </NativeBaseProvider>
   );
 }
-
-
