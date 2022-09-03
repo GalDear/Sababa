@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import * as React from 'react';
 import { View, Text, Button } from 'react-native';
 import { MainScreen } from './MainScreen';
-import { AddCreate} from './AddCreate';
+import { AddCreate } from './addCreate';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
