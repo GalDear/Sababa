@@ -24,14 +24,14 @@ function addType(cardData) {
   }
 }
 
-export function MainScreen() {
+export function MainScreen({navigation}) {
   const [cards, setCards] = useState([]);
   const [add, setAds] = useState([]);
   const [last_ad, setLastAd] = useState(0);
 
   const getdata = async () => {
     console.log("Requesting");
-    await fetch("http://192.168.1.5:8081/api/get_main_data", {
+    await fetch("http://192.168.1.198:8081/api/get_main_data", {
       method: "POST",
       body: JSON.stringify({ last_ad: last_ad }),
     })
