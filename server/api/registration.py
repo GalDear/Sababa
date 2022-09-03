@@ -17,9 +17,9 @@ def user_registration():
         print(data)
         try:
 
-            if(validateEmail(data['email']) and validatePassword(data['password'])):
-                if Users.query.filter_by(email=data['email']).first() is None:
-                    new_user = Users(password=data['password'], full_name=data['full_name'], phone_number=data['phone_number'], email=data['email'],country=data['country'],created_at=datetime.today(),user_type=UserTypes.Parse(data['user_type']),description=data['description'],foundation=data['foundation'],gender=Genders.Parse(data['gender']),skills=data['skills'])
+            if validatePassword(data['password']):
+                if validateEmail(data['email']):
+                    new_user = Users(password=data['password'], full_name=data['fullname'], phone_number=data['phone'], email=data['email'].lower(),country=data['country'],user_type=data['type'],age=data['age'],description=data['description'],foundation=data['companyFounding'],gender=data['gender'],skills=data['skills'],created_at=datetime.today())
                     print(new_user)
                     db.session.add(new_user)
                     db.session.commit()
@@ -44,12 +44,16 @@ def user_registration():
         
 
 
-emailRegex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+
 def validateEmail(email):
-    return re.fullmatch(emailRegex, email) # return boolean value, indicate if email is in correct format
+    emailRegex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+    email_exist = Users.query.filter_by(email=email).first()
+    email_pattern = re.fullmatch(emailRegex, email) # return boolean value, indicate if email is in correct format
+    return (not email_exist and email_pattern)
  
 
-passwordRegex = re.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{8,20}$")
+
 def validatePassword(password):
+    passwordRegex = re.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{8,20}$")
     return re.search(passwordRegex, password)
 
