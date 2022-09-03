@@ -54,7 +54,7 @@ class Users(db.Model):
     ads = db.relationship('Ads', backref='user_ads', lazy=True)
 
     def user_as_dict(self):
-        return {'id': self.id, 'full_name': self.full_name, 'phone_number': self.phone_number,
+        return {'id': self.id, 'full_name': self.full_name, 'password':self.password, 'phone_number': self.phone_number,
                 'email': self.email, 'country': self.country, 'created_at': self.created_at.strftime('%Y-%m-%d'),
                 'user_type': self.user_type, 'age':self.age,
                 'description': self.description, 'foundation': self.foundation,

@@ -4,7 +4,7 @@ import { Box, Heading, Text, Center, Input, FormControl, Link, Button, NativeBas
 import {Alert} from 'react-native'
 
 export function Login({useStateFigure}) {
-    // const [selected, setSelected] = React.useState(0);
+    const [selected, setSelected] = React.useState();
     const [inputs, setInputs] = React.useState({
       email: '',
       password: '',
@@ -36,7 +36,7 @@ export function Login({useStateFigure}) {
         // setLoading(false);
         // AsyncStorage.setItem('userData', JSON.stringify(inputs));
         console.log(inputs) // for test
-        await fetch('http://192.168.1.6:8081/api/login',
+        await fetch('http://192.168.1.5:8081/api/login',
         {
           method: 'POST',
           body:JSON.stringify(inputs)
@@ -45,7 +45,7 @@ export function Login({useStateFigure}) {
         .then((data) => {
           if (data.success) {
             useStateFigure(1)
-            // setSelected(1);
+            setSelected(1);
           }
           else {
             Alert.alert('Error', data.error);
