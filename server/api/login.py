@@ -13,7 +13,7 @@ def user_login():
                 user_password = user.user_as_dict()['password']
                 print("HERE: USER PASS")
                 if  user_password == data['password']:
-                    response = make_response(jsonify(success = 'true'))
+                    response = make_response(jsonify(success = 'true',user_id = user.id))
                     response.status_code = 200    
                 else:
                     response = make_response(jsonify(error = "Wrong username or password."))

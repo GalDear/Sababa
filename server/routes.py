@@ -5,6 +5,7 @@ from api.get_users import getUsers
 from api.chat import user_send_message,get_last_messages
 from api.media import save_media, user_image
 from api.main_screen import mainScreen
+from api.ads import ad_create
 
 login = Blueprint("login", __name__)
 login.route("/api/login", methods=["POST"])(user_login)
@@ -29,4 +30,8 @@ get_user_image.route("/api/get_user_image", methods=['GET'])(user_image)
 
 get_main_data = Blueprint("get_main_data", __name__)
 get_main_data.route("/api/get_main_data", methods=['GET','POST'])(mainScreen)
+
+create_new_ad = Blueprint("create_new_ad", __name__)
+create_new_ad.route("/api/create_new_ad", methods=['GET','POST'])(ad_create)
+
 

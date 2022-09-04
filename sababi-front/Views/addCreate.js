@@ -1,9 +1,27 @@
 import * as React from 'react';
 import { View, Text, Button,Heading,ScrollView,NativeBaseProvider,FormControl,VStack,Box,Center,Input } from 'native-base';
 import {StyleSheet, TextInput} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Alert} from 'react-native'
+
+
 
 export function AddCreate({navigation}) {
-
+const getData = async () => {
+    try {
+      
+      const value = await AsyncStorage.getItem('user_id');
+      if (value !== null) {
+        // We have data!!
+        console.log(value);
+        return value
+      }
+    } catch (error) {
+      // Error retrieving data
+      console.log(error);
+    }
+  };
+  
   const [loading, setLoading] = React.useState(false);
   const [errors, setErrors] = React.useState({});
 
@@ -16,7 +34,7 @@ export function AddCreate({navigation}) {
     Description: '', 
   });
 
-  const validate = () => {
+  const validate = async () => {
     let isValid = true;
     
     if (!inputs.JobTitle) {
@@ -36,25 +54,28 @@ export function AddCreate({navigation}) {
 
     if (isValid) {
       console.log("Valid = true")
-      Publish();
+      await Publish();
       navigation.navigate('Home')
 
     }
-
+    
     console.log("Valid = false after try to end")
 
   };
 
-  const Publish = () => {
+  const Publish = async () => {
     setLoading(true);
-    setTimeout(() => {
+    setTimeout(async () => {
       try {
+        const userId = await getData()
         console.log("try to handle")
         setLoading(false);
         // AsyncStorage.setItem('userData', JSON.stringify(inputs));
         console.log(inputs) // for test
-        fetch('http://localhost:8081/api/register',
-        {body:inputs})
+        await fetch('http://192.168.1.5:8081/api/create_new_ad',{
+          method: "POST",
+          body: JSON.stringify([inputs,userId]),
+        })
         .then((response) => response.json())
         .then((data) => {
         console.log(data)});
