@@ -24,6 +24,8 @@ function addType(cardData) {
   }
 }
 
+
+
 export function MainScreen({navigation}) {
   const [cards, setCards] = useState([]);
   const [add, setAds] = useState([]);
@@ -31,19 +33,21 @@ export function MainScreen({navigation}) {
 
   const getdata = async () => {
     console.log("Requesting");
+
     await fetch("http://10.0.0.5:8081/api/get_main_data", {
+
       method: "POST",
       body: JSON.stringify({ last_ad: last_ad }),
     })
       .then((response) => response.json())
       .then((data) => {
-        setLastAd(data["next_ad"]);
-        setAds(add => [...add, ...data["ads"]]);
-
-        
+        if (data['ads'].length > 0){
+          setLastAd(data["next_ad"]);
+          setAds(add => [...add, ...data["ads"]]);
+        }
       })
       .catch((error) => {
-        console.log("ERORRRRRR", error);
+        console.log("ERROR", error);
       });
   };
 
@@ -52,12 +56,12 @@ export function MainScreen({navigation}) {
       console.log(add.length)
       if (add.length > 2) {
         console.log("Got data from server");
-        setCards(add);
         console.log("Nothing changed");
       } else {
           console.log("AD ALMOST GONE -  REQUESTING FROM SERVER");
           Promise.all([getdata()]);
       }
+      setCards(add);
     }, 10000);
     return () => clearInterval(interval);
   }, [cards, last_ad, add,]);

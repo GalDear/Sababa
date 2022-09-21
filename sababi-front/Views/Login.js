@@ -2,6 +2,7 @@
 import React from "react";
 import { Box, Heading, Text, Center, Input, FormControl, Link, Button, NativeBaseProvider,HStack, VStack } from "native-base";
 import {Alert} from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function Login({useStateFigure}) {
     const [selected, setSelected] = React.useState();
@@ -30,7 +31,18 @@ export function Login({useStateFigure}) {
         await login();
       }
     };
-  
+
+    const storeData = async (data) => {
+      try {
+        console.log("STORE DATA!")
+        await AsyncStorage.setItem("login", "true");
+        await AsyncStorage.setItem("user_id", data.user_id.toString());
+      } catch (error) {
+        // Error saving data
+        console.log(error)
+      }
+    };
+
     const login = async() => {
       try {
         // setLoading(false);
@@ -44,8 +56,10 @@ export function Login({useStateFigure}) {
         .then((response) => response.json())
         .then((data) => {
           if (data.success) {
+
             useStateFigure(1)
             setSelected(1);
+            storeData(data)
           }
           else {
             Alert.alert('Error', data.error);
