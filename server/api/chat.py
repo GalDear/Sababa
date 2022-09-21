@@ -82,7 +82,7 @@ def user_send_message():
 # {
 #     "user1":1,
 #     "user2":2,
-#     "match_id":2,
+#     "match_id":2, ****** or chat_id?
 #     "last_message":4
 # }
 def get_last_messages():

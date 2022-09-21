@@ -140,8 +140,9 @@ class Offers(db.Model):
 
 class Chat(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    sender = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    receiver = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    participants = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    # sender = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    # receiver = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     ad_id = db.Column(db.Integer, db.ForeignKey('ads.id'), nullable=False)
     messages = db.relationship('Message', backref='chat_messages', lazy=True)
     starting_time = db.Column(db.DateTime, nullable=False,default=datetime.now())
