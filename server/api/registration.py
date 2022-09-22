@@ -5,6 +5,7 @@ import json
 import re
 from flask import make_response,jsonify,request
 from datetime import datetime
+from api.ads import ad_create
 
 
 
@@ -25,7 +26,10 @@ def user_registration():
                     db.session.commit()
                     response = make_response({'success':True})
                     print(new_user)
-                    
+                    if data['type']:
+                        print("Creating Ad for user")
+                        user_ad={"JobTitle":data['jobTitle'],"Status":"New joiner","EstimatedTime":"","Description":("Skills: "+data['skills']+"\n"+data['description']),"Price":""}
+                        ad_create(user_ad,new_user.user_as_dict()['id'])
                 else:
                     response = make_response({'success':False, 'error':"Email is already taken"})
                     response.status_code = 406

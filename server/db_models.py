@@ -58,7 +58,7 @@ class Users(db.Model):
                 'email': self.email, 'country': self.country, 'created_at': self.created_at.strftime('%Y-%m-%d'),
                 'user_type': self.user_type, 'age':self.age,
                 'description': self.description, 'foundation': self.foundation,
-                'gender': self.gender, 'skills': self.skills}
+                'gender': self.gender, 'skills': self.skills,'ads':self.ads}
 
     def __repr__(self):
         return f"Users('{self.id}', '{self.full_name}', '{self.email}', '{self.created_at.strftime('%Y-%m-%d')}','{self.user_type}')"
@@ -69,8 +69,8 @@ class Ads(db.Model):
     title = db.Column(db.String(50), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     description= db.Column(db.Text)
-    estimated_time = db.Column(db.Integer, nullable=False)
-    price = db.Column(db.Integer, nullable=False)
+    estimated_time = db.Column(db.Integer)
+    price = db.Column(db.Integer)
     status = db.Column(db.String(10), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False,default=datetime.now())
     images = db.relationship('AdMedia', backref='ad_images', lazy=True)
@@ -85,7 +85,6 @@ class Ads(db.Model):
             with open(f'files/{filename}', "rb") as f:
                 encodedZip = base64.b64encode(f.read())
         except:
-            print("here")
             with open(f'files/default_ad.jpeg', "rb") as f:
                 encodedZip = base64.b64encode(f.read())
             type='jpeg'
@@ -117,13 +116,14 @@ class AdMatches(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     ad_id = db.Column(db.Integer, db.ForeignKey('ads.id'), nullable=False)
     client_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    ad_owner_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     match_time = db.Column(db.DateTime, nullable=False,default=datetime.now())
 
     def match_as_dict(self):
         return {'id': self.id,'ad_id': self.ad_id, 'client_id': self.client_id, 'match_time': self.match_time.strftime('%Y-%m-%d')}
 
     def __repr__(self):
-        return f"AdMatches('{self.id}', '{self.client_id}', '{self.match_time.strftime('%Y-%m-%d')}')"
+        return f"AdMatches('{self.id}', '{self.ad_id}','{self.client_id}', '{self.match_time.strftime('%Y-%m-%d')}')"
 
 
 class Offers(db.Model):

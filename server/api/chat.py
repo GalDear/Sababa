@@ -106,3 +106,18 @@ def get_last_messages():
         response.status_code = 500
     response.headers['Access-Control-Allow-Origin'] = '*'
     return response
+
+
+def createChat(ad_id, user_id,ad_creator):
+    option1 = Chat.query.filter_by(sender=user_id,receiver=ad_creator,ad_id=ad_id).first()
+    option2 = Chat.query.filter_by(sender=ad_creator,receiver=user_id,ad_id=ad_id).first()
+
+    if not option1 and not option2:
+        print("Creating new Chat!")
+        new_chat = Chat(sender=user_id,receiver=ad_creator,ad_id=ad_id,starting_time=datetime.now())
+        db.session.add(new_chat)
+        db.session.commit()
+        return new_chat
+    else:
+        print("Chat already exist")
+        return option1 or option2

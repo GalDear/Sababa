@@ -3,7 +3,7 @@ import { JobAdd } from '../Componnats/JobAdd';
 import { NativeBaseProvider, Center, Box, Container, HStack, Heading, NBBox, Flex, Divider, Button, useToast,Fab,Icon } from 'native-base';
 import { StyleSheet, Text, View } from "react-native";
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from "react";
 import SwipeCards from "react-native-swipe-cards-deck";
 import Toast from "react-native-root-toast";
@@ -23,6 +23,21 @@ function addType(cardData) {
     return <JobAdd data={cardData} />;
   }
 }
+
+const getData = async () => {
+  try {
+    
+    const value = await AsyncStorage.getItem('user_id');
+    if (value !== null) {
+      // We have data!!
+      console.log(value);
+      return value
+    }
+  } catch (error) {
+    // Error retrieving data
+    console.log(error);
+  }
+};
 
 
 
@@ -65,8 +80,26 @@ export function MainScreen({navigation}) {
     return () => clearInterval(interval);
   }, [cards, last_ad, add,]);
 
-  function handleYup(card) {
+  async function handleYup(card) {
     console.log(`Yup for ${card.name}`);
+    const userId = await getData()
+    await fetch("http://192.168.1.5:8081/api/approve_ad", {
+      method: "POST",
+      body: JSON.stringify({ ad_id: card.id.toString(), user_id: userId }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data['match']){
+          console.log("Match: "+ data)
+        }
+        
+      })
+      .catch((error) => {
+        console.log("ERROR", error);
+      });
+
+
+
     let toast = Toast.show("Yup", {
       backgroundColor: "green",
       duration: Toast.durations.SHORT,
@@ -76,7 +109,7 @@ export function MainScreen({navigation}) {
     return true; // return false if you wish to cancel the action
   }
 
-  function handleNope(card) {
+  async function handleNope(card) {
     console.log(`Nope for ${card.name}`);
     let toast = Toast.show("Nope", {
       backgroundColor: "red",
@@ -84,7 +117,7 @@ export function MainScreen({navigation}) {
     });
     return true;
   }
-  function handleMaybe(card) {
+  async function handleMaybe(card) {
     console.log(`Maybe for ${card.name}`);
     return false;
   }
@@ -98,11 +131,11 @@ export function MainScreen({navigation}) {
               cards={cards}
               renderCard={(cardData) => addType(cardData)}
               keyExtractor={(cardData) => String(cardData.text)}
-              renderNoMoreCards={() => <StatusCard text="No more cards..!." />}
+              renderNoMoreCards={() => <StatusCard text="No more Ads - Come back later.." />}
               actions={{
-                nope: { onAction: handleNope, show: false },
-                yup: { onAction: handleYup, show: false },
-                maybe: { onAction: handleMaybe, show: false },
+                nope: { onAction:  handleNope, show: false },
+                yup: { onAction:  handleYup, show: false },
+                maybe: { onAction:  handleMaybe, show: false },
               }}
               hasMaybeAction={true}
               loop={false}

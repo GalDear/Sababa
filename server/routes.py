@@ -4,7 +4,7 @@ from api.registration import user_registration
 from api.get_users import getUsers
 from api.chat import user_send_message,get_last_messages
 from api.media import save_media, user_image
-from api.main_screen import mainScreen
+from api.main_screen import mainScreen, approveAd
 from api.ads import ad_create
 
 login = Blueprint("login", __name__)
@@ -33,5 +33,8 @@ get_main_data.route("/api/get_main_data", methods=['GET','POST'])(mainScreen)
 
 create_new_ad = Blueprint("create_new_ad", __name__)
 create_new_ad.route("/api/create_new_ad", methods=['GET','POST'])(ad_create)
+
+approve_ad = Blueprint("approve_ad", __name__)
+approve_ad.route("/api/approve_ad", methods=['GET','POST'])(approveAd)
 
 
