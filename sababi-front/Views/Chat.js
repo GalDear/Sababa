@@ -15,15 +15,37 @@ import {View, ScrollView, Text, Button, StyleSheet} from 'react-native';
 import {Bubble, GiftedChat, Send} from 'react-native-gifted-chat';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export function ChatScreen({navigation}) {
+
+async function getUserDetails(chat_id,user) {
+  console.log(chat_id,user)
+  await fetch("http://192.168.1.5:8081/api/chat_user_details", {
+      method: "POST",
+      body: JSON.stringify({ chatId: chat_id, userId:user}),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Chat was found, data: " + JSON.stringify(data))
+        return JSON.stringify(data)
+      })
+      .catch((error) => {
+        console.log("ERROR", error);
+      });
+}
+
+export  function ChatScreen({route,navigation}) {
   const [messages, setMessages] = useState([]);
-
+  const params = route.params;
+  console.log("CHAT: ",params)
+  const userDetails =  getUserDetails(params[0],params[1])
+  console.log(userDetails)
   useEffect(() => {
     setMessages([
       {
         _id: 1,
-        text: 'Hello developer',
+        text: 'USER-ID: '+ userDetails['user_id'] + ', UserName: ' + userDetails['user_name'],
         createdAt: new Date(),
         user: {
           _id: 2,
@@ -49,6 +71,7 @@ export function ChatScreen({navigation}) {
       GiftedChat.append(previousMessages, messages),
     );
   }, []);
+
 
   const renderSend = (props) => {
     return (

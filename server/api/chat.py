@@ -1,4 +1,4 @@
-from db_models import Message,Chat,Ads, db
+from db_models import Message,Chat,Ads,Users, db
 import json
 from flask import make_response,jsonify,request
 from sqlalchemy import and_
@@ -121,3 +121,21 @@ def createChat(ad_id, user_id,ad_creator):
     else:
         print("Chat already exist")
         return option1 or option2
+
+def chat_details():
+    response=make_response()
+    # try:
+    data = json.loads(request.data)
+    print(data)
+    chat = Chat.query.filter_by(id=data['chatId']).first().chat_as_dict()
+    if data['userId'] == chat['receiver']:
+        user_id = chat['sender']
+    else:
+        user_id = chat['receiver']
+    user_name = Users.query.filter_by(id=user_id).first().user_as_dict()['full_name']
+    response.data = json.dumps({"user_id":user_id, "user_name":user_name})
+    # except Exception as e:
+    #         print (e)
+            # response.status_code = 500
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response

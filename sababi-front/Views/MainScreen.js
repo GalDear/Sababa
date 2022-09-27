@@ -48,10 +48,10 @@ export function MainScreen({navigation}) {
 
   const getdata = async () => {
     console.log("Requesting");
-
+    const userId = await getData()
     await fetch("http://192.168.1.5:8081/api/get_main_data", {
       method: "POST",
-      body: JSON.stringify({ last_ad: last_ad }),
+      body: JSON.stringify({ last_ad: last_ad , user_id: userId}),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -82,28 +82,27 @@ export function MainScreen({navigation}) {
 
   async function handleYup(card) {
     console.log(`Yup for ${card.name}`);
-    const userId = await getData()
+    const user_id = await getData()
     await fetch("http://192.168.1.5:8081/api/approve_ad", {
       method: "POST",
-      body: JSON.stringify({ ad_id: card.id.toString(), user_id: userId }),
+      body: JSON.stringify({ ad_id: card.id.toString(), user_id: user_id }),
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data['match']){
-          console.log("Match: "+ data)
+        if (data['is_match'] === 'True'){
+          let toast = Toast.show("MATCH! - Creating new chat", {
+            backgroundColor: "green",
+            duration: Toast.durations.SHORT,
+          });
+          const chat_id = data['chat_id']
+          console.log("Match: "+ chat_id)
+          navigation.navigate('Chat',[user_id, chat_id])
         }
         
       })
       .catch((error) => {
         console.log("ERROR", error);
       });
-
-
-
-    let toast = Toast.show("Yup", {
-      backgroundColor: "green",
-      duration: Toast.durations.SHORT,
-    });
     add.shift();
     console.log(add.length);
     return true; // return false if you wish to cancel the action
@@ -115,6 +114,7 @@ export function MainScreen({navigation}) {
       backgroundColor: "red",
       duration: Toast.durations.SHORT,
     });
+    add.shift();
     return true;
   }
   async function handleMaybe(card) {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, Text, Button } from 'react-native';
-import { MainScreen } from './Views/MainScreen';
+// import { MainScreen } from './Views/MainScreen';
 import { ChatScreen } from './Views/Chat';
 import { Footer } from './Componnats/Footer';
 import { Menu } from './Views/Menu';
@@ -12,15 +12,13 @@ import { MainNavigation } from './Views/MainNavigation';
 import { MenuNavigation } from './Views/MenuNavigation';
 import { ChatNavigation } from './Views/ChatNavigation'
 
-function App() {
 
+
+function App() {
   const [data, setData] = React.useState('');
   const useStateFigure = (useStateData) => {
     setData(useStateData);
   }
-// return(
-//   <Login></Login>
-// );
 if(data == 0)
 {
   return (    
@@ -63,7 +61,6 @@ export default App;
 
 
 function screenManager(data) {
-
   if (data == 1) {
     return <MainNavigation></MainNavigation>
   }

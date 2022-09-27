@@ -149,7 +149,8 @@ class Chat(db.Model):
     starting_time = db.Column(db.DateTime, nullable=False,default=datetime.now())
 
     def chat_as_dict(self):
-        return {'id': self.id, 'ad_id': self.ad_id, 'messages': self.messages, 'starting_time': self.starting_time.strftime('%Y-%m-%d')}
+        return {'id': self.id, 'ad_id': self.ad_id, 'messages': self.messages, 'starting_time': self.starting_time.strftime('%Y-%m-%d')
+        ,'sender':self.sender,'receiver':self.receiver}
 
     def __repr__(self):
         return f"Chat('{self.id}', '{self.ad_id}', '{self.messages}', '{self.starting_time.strftime('%Y-%m-%d')}')"
