@@ -45,7 +45,7 @@ export  function ChatScreen({route,navigation}) {
     setMessages([
       {
         _id: 1,
-        text: 'USER-ID: '+ userDetails['user_id'] + ', UserName: ' + userDetails['user_name'],
+        text: 'Hello there, in my opinion it will take about 5 days',//'USER-ID: '+ userDetails['user_id'] + ', UserName: ' + userDetails['user_name'],
         createdAt: new Date(),
         user: {
           _id: 2,
@@ -55,7 +55,7 @@ export  function ChatScreen({route,navigation}) {
       },
       {
         _id: 2,
-        text: 'Hello world',
+        text: 'Hey, how log it will take for you?',
         createdAt: new Date(),
         user: {
           _id: 1,
