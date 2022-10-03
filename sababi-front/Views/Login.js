@@ -48,7 +48,7 @@ export function Login({useStateFigure}) {
         // setLoading(false);
         // AsyncStorage.setItem('userData', JSON.stringify(inputs));
         console.log(inputs) // for test
-        await fetch('http://10.0.0.5:8081/api/login',
+        await fetch('http://192.168.1.5:8081/api/login',
         {
           method: 'POST',
           body:JSON.stringify(inputs)
