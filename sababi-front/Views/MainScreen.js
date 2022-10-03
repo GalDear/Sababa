@@ -50,6 +50,7 @@ export function MainScreen({navigation}) {
     console.log("Requesting");
     const userId = await getData()
     await fetch("http://192.168.1.5:8081/api/get_main_data", {
+
       method: "POST",
       body: JSON.stringify({ last_ad: last_ad , user_id: userId}),
     })

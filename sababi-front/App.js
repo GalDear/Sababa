@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { View, Text, Button } from 'react-native';
-// import { MainScreen } from './Views/MainScreen';
+import { View, Text, Button,Keyboard } from 'react-native';
+import { MainScreen } from './Views/MainScreen';
 import { ChatScreen } from './Views/Chat';
 import { Footer } from './Componnats/Footer';
 import { Menu } from './Views/Menu';
@@ -16,9 +16,29 @@ import { ChatNavigation } from './Views/ChatNavigation'
 
 function App() {
   const [data, setData] = React.useState('');
+  const [isKeyboardOpen,setIsKeyboardOpen]=React.useState(false)
   const useStateFigure = (useStateData) => {
     setData(useStateData);
   }
+
+
+  const handleKeyboardShow = ()=>{
+  setIsKeyboardOpen(true)
+  }
+
+  
+  const handleKeyboardHide = ()=>{
+ setIsKeyboardOpen(false)
+  }
+
+
+  React.useEffect(()=>{
+    Keyboard.addListener('keyboardDidShow',handleKeyboardShow);
+    Keyboard.addListener('keyboardDidHide',handleKeyboardHide);
+
+    
+  },[])
+
 if(data == 0)
 {
   return (    
@@ -45,11 +65,11 @@ if(data == 5){
 else{
   return (
     <SafeAreaView style={{backgroundColor:"black"}}>
-      <View style={{ height: '91%' }}>{
+      <View style={{ height: isKeyboardOpen ? '100%' : '91%' }}>{
         screenManager(data)
       }
       </View>
-      <View style={{height: '9%'}}>
+      <View style={{height:  '9%', display: isKeyboardOpen ? 'none' : undefined}}>
         <Footer useStateFigure={useStateFigure}></Footer>
       </View>
     </SafeAreaView>
@@ -65,7 +85,7 @@ function screenManager(data) {
     return <MainNavigation></MainNavigation>
   }
   if (data == 2) {
-    return <ChatScreen></ChatScreen>
+    return <ChatNavigation></ChatNavigation>
   }
   if (data == 3) {
     return <Notification></Notification>

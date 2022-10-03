@@ -63,7 +63,7 @@ export function EditInfo({navigation}) {
         setLoading(false);
         // AsyncStorage.setItem('userData', JSON.stringify(inputs));
         console.log(inputs) // for test
-        fetch('http://localhost:8081/api/register',
+        fetch('http://192.168.1.5:8081/api/register',
         {body:inputs})
         .then((response) => response.json())
         .then((data) => {
