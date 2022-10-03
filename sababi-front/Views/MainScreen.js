@@ -34,7 +34,7 @@ export function MainScreen({navigation}) {
   const getdata = async () => {
     console.log("Requesting");
 
-    await fetch("http://10.0.0.5:8081/api/get_main_data", {
+    await fetch("http://192.168.1.5:8081/api/get_main_data", {
 
       method: "POST",
       body: JSON.stringify({ last_ad: last_ad }),

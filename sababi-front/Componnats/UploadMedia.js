@@ -86,7 +86,7 @@ export default class Media extends Component {
   toServer = async (mediaFile) => {
     let type = mediaFile.type;
     let schema = "http://";
-    let host = "192.168.1.6";
+    let host = "192.168.1.5";
     let route = "";
     let port = "8081";
     let url = "";
