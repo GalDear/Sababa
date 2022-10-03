@@ -110,7 +110,7 @@ export function ChatScreen({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: 'left',
     justifyContent: 'center',
   },
 });

@@ -13,48 +13,57 @@ import {
   TextSection,
 } from '../design/MessagesStyles';
 
+
 const Messages = [
   {
     id: '1',
-    userName: 'Jenny Doe',
-    userImg: null, // require('../assets/users/user-3.jpg'),
+    ad_id: 'elbit',
+    userName: 'Daniel George',
+    userImg: require('../assets/users/user-1.jpeg'),
     messageTime: '4 mins ago',
     messageText:
       'Hey there, this is my test for a post of my social app in React Native.',
   },
   {
     id: '2',
-    userName: 'John Doe',
-    userImg: null, // require('../assets/users/user-1.jpg'),
+    ad_id: 'cymotive',
+    userName: 'Gal Bachar',
+    userImg: require('../assets/users/user-2.jpeg'),
     messageTime: '2 hours ago',
     messageText:
       'Hey there, this is my test for a post of my social app in React Native.',
   },
   {
     id: '3',
-    userName: 'Ken William',
-    userImg: null, // require('../assets/users/user-4.jpg'),
+    ad_id: 'meshulam',
+    userName: 'Eden Meshulam',
+    userImg: require('../assets/users/user-3.jpeg'),
     messageTime: '1 hours ago',
     messageText:
       'Hey there, this is my test for a post of my social app in React Native.',
   },
   {
     id: '4',
-    userName: 'Selina Paul',
-    userImg: null, // require('../assets/users/user-6.jpg'),
+    ad_id: 'accessfintech',
+    userName: 'Shahar Baba',
+    userImg: require('../assets/users/user-4.jpeg'),
     messageTime: '1 day ago',
     messageText:
       'Hey there, this is my test for a post of my social app in React Native.',
   },
   {
     id: '5',
-    userName: 'Christy Alex',
-    userImg: null, // require('../assets/users/user-7.jpg'),
+    ad_id: 'meluna',
+    userName: 'Bel',
+    userImg: require('../assets/users/user-5.jpeg'),
     messageTime: '2 days ago',
     messageText:
       'Hey there, this is my test for a post of my social app in React Native.',
   },
 ];
+
+
+
 
 export function MessagesScreen({ navigation })  {
     return (

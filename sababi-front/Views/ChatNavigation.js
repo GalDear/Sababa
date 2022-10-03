@@ -9,7 +9,7 @@ export function ChatNavigation () {
   return(
   <NavigationContainer>
   <Stack.Navigator>
-    <Stack.Screen name="Messages" component={MessagesScreen} />
+    <Stack.Screen name="Chats" component={MessagesScreen} />
     <Stack.Screen
       name="ChatScreen"
       component={ChatScreen}
