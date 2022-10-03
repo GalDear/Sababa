@@ -92,13 +92,13 @@ export function ChatScreen({navigation}) {
   return (
     <GiftedChat
       messages={messages}
-      // onSend={(messages) => onSend(messages)}
-      // user={{
-      //   _id: 1,
-      // }}
+      onSend={(messages) => onSend(messages)}
+       user={{
+      _id: 1,
+       }}
       // renderBubble={renderBubble}
-      // alwaysShowSend
-      // renderSend={renderSend}
+      alwaysShowSend
+     renderSend={renderSend}
       scrollToBottom
       scrollToBottomComponent={scrollToBottomComponent}
     />

@@ -99,7 +99,7 @@ export function Register({useStateFigure}) {
           // setLoading(false);
           // AsyncStorage.setItem('userData', JSON.stringify(inputs));
           console.log(inputs) // for test
-          await fetch('http://192.168.1.5:8081/api/registration',
+          await fetch('http://172.26.16.1:8081/api/registration',
           {
             method: 'POST',
             body:JSON.stringify(inputs)

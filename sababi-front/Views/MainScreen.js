@@ -1,21 +1,10 @@
-import { PersonAdd } from "../Componnats/PersonAdd";
-import { JobAdd } from "../Componnats/JobAdd";
-import {
-  NativeBaseProvider,
-  Center,
-  Box,
-  Container,
-  HStack,
-  Heading,
-  NBBox,
-  Flex,
-  Divider,
-  Button,
-  useToast,
-} from "native-base";
-import { AddClass } from "../Model/AddClass";
-import React, { useEffect, useState } from "react";
+import { PersonAdd } from '../Componnats/PersonAdd';
+import { JobAdd } from '../Componnats/JobAdd';
+import { NativeBaseProvider, Center, Box, Container, HStack, Heading, NBBox, Flex, Divider, Button, useToast,Fab,Icon } from 'native-base';
 import { StyleSheet, Text, View } from "react-native";
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React, { useEffect, useState } from "react";
 import SwipeCards from "react-native-swipe-cards-deck";
 import Toast from "react-native-root-toast";
 
@@ -35,26 +24,30 @@ function addType(cardData) {
   }
 }
 
-export function MainScreen() {
+
+
+export function MainScreen({navigation}) {
   const [cards, setCards] = useState([]);
   const [add, setAds] = useState([]);
   const [last_ad, setLastAd] = useState(0);
 
   const getdata = async () => {
     console.log("Requesting");
-    await fetch("http://192.168.1.5:8081/api/get_main_data", {
+
+    await fetch("http://10.0.0.5:8081/api/get_main_data", {
+
       method: "POST",
       body: JSON.stringify({ last_ad: last_ad }),
     })
       .then((response) => response.json())
       .then((data) => {
-        setLastAd(data["next_ad"]);
-        setAds(add => [...add, ...data["ads"]]);
-
-        
+        if (data['ads'].length > 0){
+          setLastAd(data["next_ad"]);
+          setAds(add => [...add, ...data["ads"]]);
+        }
       })
       .catch((error) => {
-        console.log("ERORRRRRR", error);
+        console.log("ERROR", error);
       });
   };
 
@@ -63,12 +56,12 @@ export function MainScreen() {
       console.log(add.length)
       if (add.length > 2) {
         console.log("Got data from server");
-        setCards(add);
         console.log("Nothing changed");
       } else {
           console.log("AD ALMOST GONE -  REQUESTING FROM SERVER");
           Promise.all([getdata()]);
       }
+      setCards(add);
     }, 10000);
     return () => clearInterval(interval);
   }, [cards, last_ad, add,]);
@@ -98,24 +91,15 @@ export function MainScreen() {
   }
 
   return (
-    <NativeBaseProvider>
-      <Center marginTop="10%">
-        <Heading>Sababi</Heading>
-      </Center>
-      <Flex
-        direction="column"
-        mb="2.5"
-        mt="1.5"
-        alignItems="center"
-        marginTop="5%"
-      >
-        <Center>
+    <NativeBaseProvider >
+      <Flex direction="column" mb="2.5" alignItems="center" backgroundColor="black">
+        <Center marginTop="10%">
           {cards ? (
             <SwipeCards
               cards={cards}
               renderCard={(cardData) => addType(cardData)}
               keyExtractor={(cardData) => String(cardData.text)}
-              renderNoMoreCards={() => <StatusCard text="No more cards..." />}
+              renderNoMoreCards={() => <StatusCard text="No more cards..!." />}
               actions={{
                 nope: { onAction: handleNope, show: false },
                 yup: { onAction: handleYup, show: false },
@@ -123,11 +107,16 @@ export function MainScreen() {
               }}
               hasMaybeAction={true}
               loop={false}
+              
             />
           ) : (
             <StatusCard text="Loading..." />
           )}
         </Center>
+        <Box position="relative" h={100} w="100%" >
+          <Fab position="absolute" size="sm" backgroundColor="white" icon={<Icon color="black" as={<AntDesign name="plus" />} size="sm" onPress={() => navigation.navigate('New Add')}/>}>
+          </Fab>
+        </Box>
       </Flex>
     </NativeBaseProvider>
   );

@@ -71,7 +71,6 @@ class Ads(db.Model):
     description= db.Column(db.Text)
     estimated_time = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Integer, nullable=False)
-    #status = db.Column(db.Enum(Status), nullable=False)
     status = db.Column(db.String(10), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False,default=datetime.now())
     images = db.relationship('AdMedia', backref='ad_images', lazy=True)
@@ -97,7 +96,10 @@ class Ads(db.Model):
         return media
 
     def get_user(self,id):
-        return Users.query.filter_by(id=id).first().user_as_dict()['full_name']
+        try:
+            return Users.query.filter_by(id=id).first().user_as_dict()['full_name']
+        except:
+            return "User wasn't found"
 
     def ad_as_dict(self):
         username=self.get_user(self.user_id)
@@ -140,8 +142,9 @@ class Offers(db.Model):
 
 class Chat(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    sender = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    receiver = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    participants = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    # sender = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    # receiver = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     ad_id = db.Column(db.Integer, db.ForeignKey('ads.id'), nullable=False)
     messages = db.relationship('Message', backref='chat_messages', lazy=True)
     starting_time = db.Column(db.DateTime, nullable=False,default=datetime.now())
