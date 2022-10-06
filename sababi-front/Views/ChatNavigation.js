@@ -14,7 +14,7 @@ export function ChatNavigation () {
       name="ChatScreen"
       component={ChatScreen}
       options={({route}) => ({
-        title: route.params.userName,
+        title: route.params[0],
         headerBackTitleVisible: false,
       })}
     />

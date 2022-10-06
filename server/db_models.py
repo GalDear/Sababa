@@ -148,9 +148,20 @@ class Chat(db.Model):
     messages = db.relationship('Message', backref='chat_messages', lazy=True)
     starting_time = db.Column(db.DateTime, nullable=False,default=datetime.now())
 
+    def last_message(chat,id):
+        print(id,chat)
+        print("here")
+        msg = Message.query.filter_by(chat_id = id).first()
+        if msg:
+            return msg.message_as_dict()['message']
+        else:
+            return "No messages Yet..."
+
+
     def chat_as_dict(self):
+        msg = self.last_message(self.id)
         return {'id': self.id, 'ad_id': self.ad_id, 'messages': self.messages, 'starting_time': self.starting_time.strftime('%Y-%m-%d')
-        ,'sender':self.sender,'receiver':self.receiver}
+        ,'sender':self.sender,'receiver':self.receiver, 'last_message': msg}
 
     def __repr__(self):
         return f"Chat('{self.id}', '{self.ad_id}', '{self.messages}', '{self.starting_time.strftime('%Y-%m-%d')}')"

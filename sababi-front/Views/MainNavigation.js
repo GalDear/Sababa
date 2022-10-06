@@ -26,12 +26,13 @@ export function MainNavigation() {
           },
           headerTintColor:"white"
         }}/>
-         <Stack.Screen name="Chat" component={ChatScreen} options={{
+         <Stack.Screen name="Chat" component={ChatScreen} options={({route}) =>({
           headerStyle: {
+            title: route.params.userName,
             backgroundColor: 'black',
           },
           headerTintColor:"white"
-        }}/>
+        })}/>
         </Stack.Navigator>
     </NavigationContainer>
   );

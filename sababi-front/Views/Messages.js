@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, FlatList } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Container,
   Card,
@@ -12,77 +13,75 @@ import {
   MessageText,
   TextSection,
 } from '../design/MessagesStyles';
+import { useEffect, useState } from "react";
 
 
-const Messages = [
-  {
-    id: '1',
-    ad_id: 'elbit',
-    userName: 'Daniel George',
-    userImg: require('../assets/users/user-1.jpeg'),
-    messageTime: '4 mins ago',
-    messageText:
-      'Hey there, this is my test for a post of my social app in React Native.',
-  },
-  {
-    id: '2',
-    ad_id: 'cymotive',
-    userName: 'Gal Bachar',
-    userImg: require('../assets/users/user-2.jpeg'),
-    messageTime: '2 hours ago',
-    messageText:
-      'Hey there, this is my test for a post of my social app in React Native.',
-  },
-  {
-    id: '3',
-    ad_id: 'meshulam',
-    userName: 'Eden Meshulam',
-    userImg: require('../assets/users/user-3.jpeg'),
-    messageTime: '1 hours ago',
-    messageText:
-      'Hey there, this is my test for a post of my social app in React Native.',
-  },
-  {
-    id: '4',
-    ad_id: 'accessfintech',
-    userName: 'Shahar Baba',
-    userImg: require('../assets/users/user-4.jpeg'),
-    messageTime: '1 day ago',
-    messageText:
-      'Hey there, this is my test for a post of my social app in React Native.',
-  },
-  {
-    id: '5',
-    ad_id: 'meluna',
-    userName: 'Bel',
-    userImg: require('../assets/users/user-5.jpeg'),
-    messageTime: '2 days ago',
-    messageText:
-      'Hey there, this is my test for a post of my social app in React Native.',
-  },
-];
+
+
+const getData = async () => {
+  try {
+    
+    const value = await AsyncStorage.getItem('user_id');
+    if (value !== null) {
+      // We have data!!
+      //console.log(value);
+      return value
+    }
+  } catch (error) {
+    // Error retrieving data
+    console.log(error);
+  }
+};
 
 
 
 
 export function MessagesScreen({ navigation })  {
+  const [msg, setMsg] = useState([]);
+
+  async function get_chat_list() {
+    console.log("CHAT!!!")
+    user_id = await getData()
+    console.log(user_id)
+    fetch("http://192.168.1.5:8081/api/get_chat_list", {
+        method: "POST",
+        body: JSON.stringify({ user_id:user_id}),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setMsg(data)
+        })
+        .catch((error) => {
+          console.log("ERROR", error);
+        });
+  }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      get_chat_list()
+    }, 1000);
+    return () => clearInterval(interval);
+  });
+
+
+  
     return (
       <Container>
         <FlatList 
-          data={Messages}
+          data={msg}
           keyExtractor={item=>item.id}
           renderItem={({item}) => (
-            <Card onPress={() => navigation.navigate('ChatScreen',{userName: item.userName})}>
+            <Card onPress={() => navigation.navigate('ChatScreen',{userName: item.user_name})}>
               <UserInfo>
                 <UserImgWrapper>
                   <UserImg source={item.userImg} />
                 </UserImgWrapper>
                 <TextSection>
                   <UserInfoText>
-                    <UserName>{item.userName}</UserName>
-                    <PostTime>{item.messageTime}</PostTime>
+                    <UserName>{item.user_name}</UserName>
+                    <PostTime>{item.starting_time}</PostTime>
                   </UserInfoText>
-                  <MessageText>{item.messageText}</MessageText>
+                  <MessageText>{item.last_message}</MessageText>
                 </TextSection>
               </UserInfo>
             </Card>

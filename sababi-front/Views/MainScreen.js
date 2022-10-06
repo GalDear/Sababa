@@ -77,7 +77,7 @@ export function MainScreen({navigation}) {
           Promise.all([getdata()]);
       }
       setCards(add);
-    }, 10000);
+    }, 1000);
     return () => clearInterval(interval);
   }, [cards, last_ad, add,]);
 

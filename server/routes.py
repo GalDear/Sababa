@@ -2,7 +2,7 @@ from flask import Blueprint
 from api.login import user_login
 from api.registration import user_registration
 from api.get_users import getUsers
-from api.chat import user_send_message,get_last_messages
+from api.chat import user_send_message,get_last_messages,chat_list
 from api.media import save_media, user_image
 from api.main_screen import mainScreen, approveAd
 from api.ads import ad_create
@@ -40,5 +40,8 @@ approve_ad.route("/api/approve_ad", methods=['GET','POST'])(approveAd)
 
 chat_user_details = Blueprint("chat_user_details", __name__)
 chat_user_details.route("/api/chat_user_details", methods=['GET','POST'])(chat_details)
+
+get_chat_list = Blueprint("get_chat_list", __name__)
+get_chat_list.route("/api/get_chat_list", methods=['GET','POST'])(chat_list)
 
 

@@ -140,15 +140,30 @@ def chat_details():
     response.headers['Access-Control-Allow-Origin'] = '*'
     return response
 
+def get_names(user_id,ad_id):
+    user = Users.query.filter_by(id=user_id).first().user_as_dict()['full_name']
+    ad = Ads.query.filter_by(id=ad_id).first().ad_as_dict()['job']
+    return f"{user} - {ad}"
+
 
 def chat_list():
     response=make_response()
     try:
         data = json.loads(request.data)
         print(data)
-        user_name = data['user_id']
-        chats = Chat.query.filter(or_(Chat.receiver == user_name, Chat.sender == user_name)).all()
-        response.data = json.dumps({"user_id":user_id, "user_name":user_name})
+        user_id = data['user_id']
+        chats = Chat.query.filter(or_(Chat.receiver == user_id, Chat.sender == user_id)).all()
+        print(chats)
+        messages = []
+        for c  in chats:
+            chat = c.chat_as_dict()
+            if chat['receiver'] == user_id:
+                chat['user_name'] = get_names(chat['sender'],chat['ad_id'])
+            else:
+                chat['user_name'] = get_names(chat['receiver'],chat['ad_id'])
+            messages.append(chat)
+
+        response.data = json.dumps(messages)
     except Exception as e:
             print (e)
             response.status_code = 500

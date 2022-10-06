@@ -82,10 +82,10 @@ export function Login({useStateFigure}) {
     return (<NativeBaseProvider>
         <Center w="100%" style={{height:'100%'}}>
         <Box safeArea p="2" py="8" w="90%" maxW="290">
-          <Heading size="lg" fontSize="40" fontWeight="bold" textAlign={"center"} color="coolGray.800" _dark={{
+          <Heading size="lg" fontSize="30" fontWeight="bold" textAlign={"center"} color="coolGray.800" _dark={{
           color: "warmGray.50"
         }}>
-            Welcome
+            Welcome to Sababi
           </Heading>
           <Heading mt="1" _dark={{
           color: "warmGray.200"
